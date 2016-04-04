@@ -17,6 +17,46 @@
  * under the License.
  */
 var app = {
+
+    requiredFeatures : ["2d_tracking", "geo"],
+    arExperienceUrl: "www/experience/index.html",
+    isDeviceSupported: false,
+    startupConfiguration:
+    {
+        "camera_position": "back"
+    },
+    onDeviceReady: function(){
+        app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin")
+        app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
+    },
+
+    onDeviceSupported: function(){//what happens when supported
+        app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
+
+        app.wikitudePlugin.loadARchitectWorld(
+            app.onARExperienceLoadedSuccessful,
+            app.onARExperienceLoadError,
+            app.arExperienceUrl,
+            app.requiredFeatures,
+            app.startupConfiguration
+            );
+
+    onARExperienceLoadedSuccessful: function(loadedURL){
+        //do something
+        //app.wikitudePlugin.callJavaScript('createCircle(new AR.RelativeLocation(null, -10, 0), \'#97FF18\');');
+    },
+
+    onARExperienceLoadError: function(errorMessage){
+        //react on failure
+        alert('Loading AR web view failed: ' + errorMessage)
+    },
+
+    },
+    onDeviceNotSupported: function(errorMessage){
+        //what happens when not supported
+        alert(errorMessage);
+    },
+
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -32,19 +72,19 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
+    //onDeviceReady: function() {
+    //    app.receivedEvent('deviceready');
+    //},
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+    //receivedEvent: function(id) {
+    //    var parentElement = document.getElementById(id);
+    //    var listeningElement = parentElement.querySelector('.listening');
+    //    var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+    //    listeningElement.setAttribute('style', 'display:none;');
+    //    receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+    //    console.log('Received Event: ' + id);
     }
 };
 
