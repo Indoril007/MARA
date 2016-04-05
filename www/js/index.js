@@ -25,37 +25,6 @@ var app = {
     {
         "camera_position": "back"
     },
-    onDeviceReady: function(){
-        app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin")
-        app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
-    },
-
-    onDeviceSupported: function(){//what happens when supported
-        app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
-
-        app.wikitudePlugin.loadARchitectWorld(
-            app.onARExperienceLoadedSuccessful,
-            app.onARExperienceLoadError,
-            app.arExperienceUrl,
-            app.requiredFeatures,
-            app.startupConfiguration
-            );
-
-    onARExperienceLoadedSuccessful: function(loadedURL){
-        //do something
-        //app.wikitudePlugin.callJavaScript('createCircle(new AR.RelativeLocation(null, -10, 0), \'#97FF18\');');
-    },
-
-    onARExperienceLoadError: function(errorMessage){
-        //react on failure
-        alert('Loading AR web view failed: ' + errorMessage)
-    },
-
-    },
-    onDeviceNotSupported: function(errorMessage){
-        //what happens when not supported
-        alert(errorMessage);
-    },
 
     // Application Constructor
     initialize: function() {
@@ -68,6 +37,40 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
+
+    onDeviceReady: function(){
+        app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin")
+        app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
+    },
+
+    onDeviceSupported: function(){//what happens when supported
+        //app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
+
+        app.wikitudePlugin.loadARchitectWorld(
+            app.onARExperienceLoadedSuccessful,
+            app.onARExperienceLoadError,
+            app.arExperienceUrl,
+            app.requiredFeatures,
+            app.startupConfiguration
+            );
+    },
+
+    onDeviceNotSupported: function(errorMessage){
+        //what happens when not supported
+        alert(errorMessage);
+    },
+
+    onARExperienceLoadedSuccessful: function(loadedURL){
+        //do something
+        //app.wikitudePlugin.callJavaScript('createCircle(new AR.RelativeLocation(null, -10, 0), \'#97FF18\');');
+    },
+
+    onARExperienceLoadError: function(errorMessage){
+        //react on failure
+        alert('Loading AR web view failed: ' + errorMessage);
+    }
+
+    
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
@@ -85,7 +88,7 @@ var app = {
     //    receivedElement.setAttribute('style', 'display:block;');
 
     //    console.log('Received Event: ' + id);
-    }
+    
 };
 
 app.initialize();
