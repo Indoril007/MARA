@@ -70,6 +70,10 @@ var app = {
         alert('Loading AR web view failed: ' + errorMessage);
     }
 
+    //test this delay code
+    //window.setTimeout(function() {
+    //    location.href = document.getElementsByClassName("deviceready")[0].getElementsByTagName("a")[0].href;
+    //}, 2000);
     
     // deviceready Event Handler
     //
