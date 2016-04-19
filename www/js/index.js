@@ -19,8 +19,7 @@
 var app = {
 
     requiredFeatures : ["2d_tracking", "geo"],
-    arExperienceUrl: "www/experience/index.html",
-    isDeviceSupported: false,
+    arUrl: null,
     startupConfiguration:
     {
         "camera_position": "back"
@@ -28,6 +27,7 @@ var app = {
 
     // Application Constructor
     initialize: function() {
+		console.log("================================================================================INITIALISED");
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -39,8 +39,9 @@ var app = {
     },
 
     onDeviceReady: function(){
-        app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin")
-        app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
+        app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+        // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
+		console.log("================================================================================DEVICE READY");
     },
 
     onDeviceSupported: function(){//what happens when supported
@@ -49,7 +50,7 @@ var app = {
         app.wikitudePlugin.loadARchitectWorld(
             app.onARExperienceLoadedSuccessful,
             app.onARExperienceLoadError,
-            app.arExperienceUrl,
+            app.arUrl,
             app.requiredFeatures,
             app.startupConfiguration
             );
@@ -68,31 +69,15 @@ var app = {
     onARExperienceLoadError: function(errorMessage){
         //react on failure
         alert('Loading AR web view failed: ' + errorMessage);
-    }
+    },
 
-    //test this delay code
-    //window.setTimeout(function() {
-    //    location.href = document.getElementsByClassName("deviceready")[0].getElementsByTagName("a")[0].href;
-    //}, 2000);
-    
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    //onDeviceReady: function() {
-    //    app.receivedEvent('deviceready');
-    //},
-    // Update DOM on a Received Event
-    //receivedEvent: function(id) {
-    //    var parentElement = document.getElementById(id);
-    //    var listeningElement = parentElement.querySelector('.listening');
-    //    var receivedElement = parentElement.querySelector('.received');
+	loadARchitectWorld: function() {
+		
+		this.arUrl = "www/AR_Libraries/Library1/index.html";
+		
+		app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 
-    //    listeningElement.setAttribute('style', 'display:none;');
-    //    receivedElement.setAttribute('style', 'display:block;');
-
-    //    console.log('Received Event: ' + id);
-    
+    },
 };
 
 app.initialize();

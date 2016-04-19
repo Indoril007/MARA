@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.monash.MARA" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-minSdkVersion" value="15" />
     <preference name="AutoHideSplashScreen" value="true" />
     <name>MARA</name>
     <description>
@@ -21,14 +21,14 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <splash src="www/img/splash-land-hdpi.png" density="land-hdpi"/>
-    <splash src="www/img/splash-land-ldpi.png" density="land-ldpi"/>
-    <splash src="www/img/splash-land-mdpi.png" density="land-mdpi"/>
-    <splash src="www/img/splash-land-xhdpi.png" density="land-xhdpi"/>
+		<splash src="www/img/splash-land-ldpi.png" density="land-ldpi"/>
+		<splash src="www/img/splash-land-mdpi.png" density="land-mdpi"/>
+		<splash src="www/img/splash-land-xhdpi.png" density="land-xhdpi"/>
 
-    <splash src="www/img/splash-port-hdpi.png" density="port-hdpi"/>
-    <splash src="www/img/splash-port-ldpi.png" density="port-ldpi"/>
-    <splash src="www/img/splash-port-mdpi.png" density="port-mdpi"/>
-    <splash src="www/img/splash-port-xhdpi.png" density="port-xhdpi"/>
+		<splash src="www/img/splash-port-hdpi.png" density="port-hdpi"/>
+		<splash src="www/img/splash-port-ldpi.png" density="port-ldpi"/>
+		<splash src="www/img/splash-port-mdpi.png" density="port-mdpi"/>
+		<splash src="www/img/splash-port-xhdpi.png" density="port-xhdpi"/>
 
         <icon src="www/img/logo-hdpi.png" density="hdpi" />
         <icon src="www/img/logo-ldpi.png" density="ldpi" />
