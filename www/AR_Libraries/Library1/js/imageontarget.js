@@ -44,25 +44,28 @@ var World = {
 		var c1b3 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: 0.031,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
+			onClick: function() {
+				pageOne.drawables.addCamDrawable(c1b4);
+				pageOne.drawables.removeCamDrawable(c1b3);			
+			}
 		});
 
 		var c1b4 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: -0.071,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
+			onClick: function() {
+				pageOne.drawables.addCamDrawable(c1b5);
+				pageOne.drawables.removeCamDrawable(c1b4);	
+			}
 		});
 
 		var c1b5 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: -0.173,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
+			onClick: function() {
+				pageOne.drawables.addCamDrawable(c1b1);
+				pageOne.drawables.removeCamDrawable(c1b5);
+			}
 		});
 
 		var c2b1 = new AR.ImageDrawable(imgOne, 0.07, {
