@@ -11,7 +11,7 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
-		this.tracker = new AR.ClientTracker("assets/funcGen.wtc", {
+		this.tracker = new AR.ClientTracker("assets/MARA.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -19,9 +19,12 @@ var World = {
 			The next step is to create the augmentation. In this example an image resource is created and passed to the AR.ImageDrawable. A drawable is a visual component that can be connected to an IR target (AR.Trackable2DObject) or a geolocated object (AR.GeoObject). The AR.ImageDrawable is initialized by the image and its size. Optional parameters allow for position it relative to the recognized target.
 		*/
 
+		//=======================================================Function Generator ECSE Lab===========================================================================================
 		/* Create overlay for page one */
 		var imgOne = new AR.ImageResource("assets/marker1.png");
 		var imgRound = new AR.ImageResource("assets/RoundMarker.png");
+
+
 		// Column 1 Button 1
 		var c1b1 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
@@ -95,25 +98,65 @@ var World = {
 		var round_button = new AR.ImageDrawable(imgRound, 0.1, {
 			offsetX: -0.511,
 			offsetY: 0.337
-		}
-		)
+		})
 
 		/*
 			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
-		var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
+		var ECSE_func_gen = new AR.Trackable2DObject(this.tracker, "function generator half", {
 			drawables: {
 				cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
 			}
 		});
+		//====================================================End of Function Generator ECSE Lab=======================================================================================
 
-		
-
+		//=======================================================Oscilloscope ENG1002==================================================================================================
 		/*
 			The AR.Trackable2DObject for the second page uses the same tracker but with a different target name and the second overlay.
 		*/
-		
+		// Column 1 Button 1
+		var O1_c1b1 = new AR.ImageDrawable(imgOne, 0.06, {
+			offsetX: -0.426,
+			offsetY: 0.2445,
+		});
+
+		var O1_c1b2 = new AR.ImageDrawable(imgOne, 0.06, {
+			offsetX: -0.426,
+			offsetY: 0.138,
+		});
+
+		var O1_c1b3 = new AR.ImageDrawable(imgOne, 0.06, {
+			offsetX: -0.426,
+			offsetY: 0.0315,
+		});
+
+		var O1_c1b4 = new AR.ImageDrawable(imgOne, 0.06, {
+			offsetX: -0.426,
+			offsetY: -0.075,
+		});
+
+		var O1_c1b5 = new AR.ImageDrawable(imgOne, 0.06, {
+			offsetX: -0.426,
+			offsetY: -0.1815,
+		});
+
+		var O1_round1 = new AR.ImageDrawable(imgRound, 0.1, {
+			offsetX: -0.42,
+			offsetY: -0.28,
+		});
+
+		var O1_mult_purpose_knob = new AR.ImageDrawable(imgRound, 0.25, {
+			offsetX: -0.224,
+			offsetY: 0.328,
+		});
+
+		var ENG1002_osci = new AR.Trackable2DObject(this.tracker, "Oscilloscope1", {
+			drawables: {
+				cam: [O1_c1b1, O1_c1b2, O1_c1b3, O1_c1b4, O1_c1b5, O1_round1,O1_mult_purpose_knob]
+				//cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
+			}
+		});
 
 	},
 
