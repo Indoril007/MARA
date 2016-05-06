@@ -11,7 +11,7 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
-		this.tracker = new AR.ClientTracker("assets/funcGen.wtc", {
+		this.tracker = new AR.ClientTracker("assets/MARA.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -20,96 +20,27 @@ var World = {
 		*/
 
 		/* Create overlay for page one */
-		var imgOne = new AR.ImageResource("assets/marker1.png");
-		var imgRound = new AR.ImageResource("assets/RoundMarker.png");
-		// Column 1 Button 1
-		var c1b1 = new AR.ImageDrawable(imgOne, 0.05, {
-			offsetX: -0.511,
-			offsetY: 0.235,
-			onClick: function() {
-				pageOne.drawables.addCamDrawable(c1b2);
-				pageOne.drawables.removeCamDrawable(c1b1);
-			}
-		});
-
-		var c1b2 = new AR.ImageDrawable(imgOne, 0.05, {
-			offsetX: -0.511,
-			offsetY: 0.133,
-			onClick: function() {
-				pageOne.drawables.addCamDrawable(c1b3);
-				pageOne.drawables.removeCamDrawable(c1b2);
-			}
-		});
-
-		var c1b3 = new AR.ImageDrawable(imgOne, 0.05, {
-			offsetX: -0.511,
-			offsetY: 0.031,
-			onClick: function() {
-				pageOne.drawables.addCamDrawable(c1b4);
-				pageOne.drawables.removeCamDrawable(c1b3);			
-			}
-		});
-
-		var c1b4 = new AR.ImageDrawable(imgOne, 0.05, {
-			offsetX: -0.511,
-			offsetY: -0.071,
-			onClick: function() {
-				pageOne.drawables.addCamDrawable(c1b5);
-				pageOne.drawables.removeCamDrawable(c1b4);	
-			}
-		});
-
-		var c1b5 = new AR.ImageDrawable(imgOne, 0.05, {
-			offsetX: -0.511,
-			offsetY: -0.173,
-			onClick: function() {
-				pageOne.drawables.addCamDrawable(c1b1);
-				pageOne.drawables.removeCamDrawable(c1b5);
-			}
-		});
-
-		var c2b1 = new AR.ImageDrawable(imgOne, 0.07, {
-			offsetX: -0.324,
-			offsetY: 0.35
-		});
-
-		var c2b2 = new AR.ImageDrawable(imgOne, 0.07, {
-			offsetX: -0.324,
-			offsetY: 0.258
-		});
-
-		var c2b3 = new AR.ImageDrawable(imgOne, 0.07, {
-			offsetX: -0.324,
-			offsetY: 0.166
-		});
-		var c2b4 = new AR.ImageDrawable(imgOne, 0.07, {
-			offsetX: -0.324,
-			offsetY: 0.076
-		});
-
-		var c2b5 = new AR.ImageDrawable(imgOne, 0.07, {
-			offsetX: -0.324,
-			offsetY: -0.013
-		});
-
-		var c2b6 = new AR.ImageDrawable(imgOne, 0.07, {
-			offsetX: -0.324,
-			offsetY: -0.102
-		});
-
-		var round_button = new AR.ImageDrawable(imgRound, 0.1, {
-			offsetX: -0.511,
-			offsetY: 0.337
+		var rect = new AR.ImageResource("assets/marker1.png");
+		var round = new AR.ImageResource("assets/RoundMarker.png");
+		var overlays = {
+			"rect": rect,
+			"round": round,
+		};
+		
+		var button_drawables = [];
+		for (i = 0; i < devices[0].buttons.length; i++) {
+			var button = devices[0].buttons[i];
+			// var image_drawable = new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY});
+			button_drawables.push(new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY}));
 		}
-		)
 
 		/*
 			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
 			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
 		*/
-		var pageOne = new AR.Trackable2DObject(this.tracker, "*", {
+		var pageOne = new AR.Trackable2DObject(this.tracker, devices[0].name, {
 			drawables: {
-				cam: [c1b1]
+				cam: button_drawables,
 			}
 		});
 
