@@ -15,6 +15,22 @@
 <body>
 	<div id="loadingMessage" class="info">Loading ...</div>
 
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="tutorials/tutorials.js"></script>
+	<script type="text/javascript">
+		var items = [];
+		$.each( tutorials, function( key, val ) {
+			items.push( "<div id='" + key + "'>" + key + "</li>" );
+		});
+
+		$( "<ul/>", {
+			"class": "my-new-list",
+			html: items.join( "" )
+		}).appendTo( "body" );
+
+
+	</script>
+	
 	<script src="js/imageontarget.js"></script>
 </body>
 </html>
