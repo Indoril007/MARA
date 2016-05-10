@@ -24,18 +24,26 @@ var World = {
 		
 		for (i = 0; i < devices.length; i++) {
 			for (j = 0; j < devices[i].buttons.length; j++) {
-				var button = devices[i].buttons[j];
-				var imageDrawable = button.getARImageDrawable();
-				imageDrawable.onClick = function() {
-					var cssDivLeft = " style='display: table-cell;vertical-align: middle; text-align: right; width: 50%; padding-right: 15px;'";
-					var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
-					var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
-					document.getElementById('loadingMessage').innerHTML =
-						"<div" + cssFont + "> " + button.description + " </div>";
-				}
-				button_drawables.push(imageDrawable);
+				(function(i,j) {
+					var button = devices[i].buttons[j];
+					var imageDrawable = button.getARImageDrawable();
+					imageDrawable.onClick = function() {
+						var cssDivLeft = " style='display: table-cell;vertical-align: middle; text-align: right; width: 50%; padding-right: 15px;'";
+						var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
+						var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
+						document.getElementById('loadingMessage').innerHTML =
+							"<div" + cssFont + "> " + button.description + " </div>";
+					}
+					button_drawables.push(imageDrawable);
+				}(i,j));
 			}
-
+			
+			var tutorials = (devices[i].tutorialButton).getARImageDrawable();
+			tutorials.onClick = function() {
+				document.location = 'architectsdk://hide';
+			}
+			
+			button_drawables.push(tutorials);
 			/*
 				The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
 				Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.

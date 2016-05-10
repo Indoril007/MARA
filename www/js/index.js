@@ -45,7 +45,7 @@ var app = {
     },
 
     onDeviceSupported: function(){//what happens when supported
-        //app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
+        app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
 
         app.wikitudePlugin.loadARchitectWorld(
             app.onARExperienceLoadedSuccessful,
@@ -71,6 +71,13 @@ var app = {
         alert('Loading AR web view failed: ' + errorMessage);
     },
 
+	onURLInvoked: function(url) {
+		if (url === "architectsdk://hide")	{
+			app.wikitudePlugin.hide();
+		}
+		
+	},
+	
 	loadARchitectWorld: function() {
 		
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
