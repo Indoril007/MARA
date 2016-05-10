@@ -11,7 +11,7 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
-		this.tracker = new AR.ClientTracker("assets/MARA.wtc", {
+		this.tracker = new AR.ClientTracker("assets/MARAnew.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -27,23 +27,28 @@ var World = {
 			"round": round,
 		};
 		
+		var trackables = [];
 		var button_drawables = [];
-		for (i = 0; i < devices[0].buttons.length; i++) {
-			var button = devices[0].buttons[i];
-			// var image_drawable = new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY});
-			button_drawables.push(new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY}));
-		}
-
-		/*
-			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
-			Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
-		*/
-		var pageOne = new AR.Trackable2DObject(this.tracker, devices[0].name, {
-			drawables: {
-				cam: button_drawables,
+		
+		for (i = 0; i < devices.length; i++) {
+			for (j = 0; j < devices[i].buttons.length; j++) {
+				var button = devices[i].buttons[j];
+				// var image_drawable = new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY});
+				button_drawables.push(new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY}));
 			}
-		});
 
+			/*
+				The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
+				Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
+			*/
+			trackables[i] = new AR.Trackable2DObject(this.tracker, devices[i].name, {
+				drawables: {
+					cam: button_drawables,
+				}
+			});
+			
+			button_drawables = [];
+		}
 		
 
 		/*
