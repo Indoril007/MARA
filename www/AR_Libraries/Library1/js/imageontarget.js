@@ -18,14 +18,6 @@ var World = {
 		/*
 			The next step is to create the augmentation. In this example an image resource is created and passed to the AR.ImageDrawable. A drawable is a visual component that can be connected to an IR target (AR.Trackable2DObject) or a geolocated object (AR.GeoObject). The AR.ImageDrawable is initialized by the image and its size. Optional parameters allow for position it relative to the recognized target.
 		*/
-
-		/* Create overlay for page one */
-		var rect = new AR.ImageResource("assets/marker1.png");
-		var round = new AR.ImageResource("assets/RoundMarker.png");
-		var overlays = {
-			"rect": rect,
-			"round": round,
-		};
 		
 		var trackables = [];
 		var button_drawables = [];
@@ -33,8 +25,15 @@ var World = {
 		for (i = 0; i < devices.length; i++) {
 			for (j = 0; j < devices[i].buttons.length; j++) {
 				var button = devices[i].buttons[j];
-				// var image_drawable = new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY});
-				button_drawables.push(new AR.ImageDrawable(overlays[button.type], button.scale, {offsetX: button.offsetX, offsetY: button.offsetY}));
+				var imageDrawable = button.getARImageDrawable();
+				imageDrawable.onClick = function() {
+					var cssDivLeft = " style='display: table-cell;vertical-align: middle; text-align: right; width: 50%; padding-right: 15px;'";
+					var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
+					var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
+					document.getElementById('loadingMessage').innerHTML =
+						"<div" + cssFont + "> " + button.description + " </div>";
+				}
+				button_drawables.push(imageDrawable);
 			}
 
 			/*
@@ -69,10 +68,10 @@ var World = {
 			*/
 
 		// Remove Scan target message after 10 sec.
-		setTimeout(function() {
-			var e = document.getElementById('loadingMessage');
-			e.parentElement.removeChild(e);
-		}, 10000);
+		// setTimeout(function() {
+			// var e = document.getElementById('loadingMessage');
+			// e.parentElement.removeChild(e);
+		// }, 10000);
 	}
 };
 
