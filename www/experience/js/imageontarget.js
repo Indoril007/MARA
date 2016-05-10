@@ -19,10 +19,31 @@ var World = {
 			The next step is to create the augmentation. In this example an image resource is created and passed to the AR.ImageDrawable. A drawable is a visual component that can be connected to an IR target (AR.Trackable2DObject) or a geolocated object (AR.GeoObject). The AR.ImageDrawable is initialized by the image and its size. Optional parameters allow for position it relative to the recognized target.
 		*/
 
-		//=======================================================Function Generator ECSE Lab===========================================================================================
-		/* Create overlay for page one */
+		/*
+			===========================================================Overlay Library=================================================================================================
+		*/
 		var imgOne = new AR.ImageResource("assets/marker1.png");
 		var imgRound = new AR.ImageResource("assets/RoundMarker.png");
+		var imgTute = new AR.ImageResource("assets/Tute-button.png");
+		var imgName_Os = new AR.ImageResource("assets/Oscilloscope.png");	//Oscilloscope
+		var imgName_FG = new AR.ImageResource("assets/FuncGen.png");	//Function Generator
+		var imgName_PS= new AR.ImageResource("assets/PowSup.png");	//Power supply
+
+		//=======================================================Function Generator ECSE Lab===========================================================================================
+
+		//Augmentation of "Tutorial" button and name of equipment
+		var Tutorial = new AR.ImageDrawable(imgTute, 0.25, {
+			offsetX: -0.45,
+			offsetY: 0.65,
+			onClick: function() {
+			//load tutorial contents here
+			}
+		});
+
+		var Eq_name = new AR.ImageDrawable(imgName_FG, 0.4, {
+			offsetX: -0.45,
+			offsetY: -0.6			
+		});
 
 
 		// Column 1 Button 1
@@ -37,33 +58,21 @@ var World = {
 		var c1b2 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: 0.133,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
 		});
 
 		var c1b3 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: 0.031,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
 		});
 
 		var c1b4 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: -0.071,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
 		});
 
 		var c1b5 = new AR.ImageDrawable(imgOne, 0.05, {
 			offsetX: -0.511,
 			offsetY: -0.173,
-			//onClick: function() {
-			//AR.context.openInBrowser("http://www.monash.edu/");
-			//}
 		});
 
 		var c2b1 = new AR.ImageDrawable(imgOne, 0.07, {
@@ -106,7 +115,7 @@ var World = {
 		*/
 		var ECSE_func_gen = new AR.Trackable2DObject(this.tracker, "function generator half", {
 			drawables: {
-				cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
+				cam: [Tutorial,Eq_name,c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
 			}
 		});
 		//====================================================End of Function Generator ECSE Lab=======================================================================================
