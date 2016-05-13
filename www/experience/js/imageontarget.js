@@ -11,7 +11,7 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
-		this.tracker = new AR.ClientTracker("assets/MARA.wtc", {
+		this.tracker = new AR.ClientTracker("assets/MARA_v3.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -24,6 +24,7 @@ var World = {
 		*/
 		var imgOne = new AR.ImageResource("assets/marker1.png");
 		var imgRound = new AR.ImageResource("assets/RoundMarker.png");
+		var imgTwo = new AR.ImageResource("assets/marker2.png");
 		var imgTute = new AR.ImageResource("assets/Tute-button.png");
 		var imgName_Os = new AR.ImageResource("assets/Oscilloscope.png");	//Oscilloscope
 		var imgName_FG = new AR.ImageResource("assets/FuncGen.png");	//Function Generator
@@ -107,7 +108,7 @@ var World = {
 		var round_button = new AR.ImageDrawable(imgRound, 0.1, {
 			offsetX: -0.511,
 			offsetY: 0.337
-		})
+		});
 
 		/*
 			The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
@@ -166,24 +167,29 @@ var World = {
 				//cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
 			}
 		});
-
+		
 		//====================================Power Supply ENG1002==========================================================================================================================================
-		var ps_round1 = new AR.ImageDrawable(imgRound, 0.4, {
-			offsetX: 0.10,
-			offsetY: 0.3,
+		var ps_round1 = new AR.ImageDrawable(imgRound, 0.3, {
+			offsetX: -0.085,
+			offsetY: 0.26,
 		});
 
-		var ps_round2 = new AR.ImageDrawable(imgRound, 0.4, {
-			offsetX: 0.475,
-			offsetY: 0.3,
+		var ps_round2 = new AR.ImageDrawable(imgRound, 0.3, {
+			offsetX: 0.36,
+			offsetY: 0.26,
+		});
+
+		var ps_rect = new AR.ImageDrawable(imgTwo, 0.4, { //13cm and 4.5cm
+			offsetX: -1.7583,
+			offsetY: -0.325,
 		});
 
 		var ENG1002_power = new AR.Trackable2DObject(this.tracker, "ENG1002_PowerSupply", {
 			drawables: {
-				cam: [ps_round1, ps_round2]
+				cam: [ps_round1, ps_round2, ps_rect]
 				//cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
 			}
-		});
+		}); 
 
 
 		//====================================End of Power Supply ENG1002=========================================================================================================================================	
