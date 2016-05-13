@@ -158,6 +158,26 @@ var World = {
 			}
 		});
 
+		//====================================Power Supply ENG1002==========================================================================================================================================
+		var ps_round1 = new AR.ImageDrawable(imgRound, 0.4, {
+			offsetX: 0.10,
+			offsetY: 0.3,
+		});
+
+		var ps_round2 = new AR.ImageDrawable(imgRound, 0.4, {
+			offsetX: 0.475,
+			offsetY: 0.3,
+		});
+
+		var ENG1002_power = new AR.Trackable2DObject(this.tracker, "ENG1002_PowerSupply", {
+			drawables: {
+				cam: [ps_round1, ps_round2]
+				//cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
+			}
+		});
+
+
+		//====================================End of Power Supply ENG1002=========================================================================================================================================	
 	},
 
 	worldLoaded: function worldLoadedFn() {
