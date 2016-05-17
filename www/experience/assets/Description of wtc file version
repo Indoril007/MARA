@@ -1,0 +1,24 @@
+Description of wtc file version
+
+.v1 {
+	Oscilloscope1: ENG1002 oscilloscope
+	function generator half : ECSE lab function generator 
+}
+
+.v2{
+	function generator half : ECSE lab function generator (phone version)
+	ENG1002_Oscilloscope : camera version
+	ENG1002_FuncGen : camera version
+	ENG1002_PowerSupply : camera version
+}
+
+.v3{
+	Added:
+	Lab_Oscilloscope: ECSE lab oscilloscope (phone version)	
+	ENG1002_Oscilloscope2 : camera version, recropped by James
+}
+
+.v4{
+	Removed:
+	ENG1002_Oscilloscope2
+}
