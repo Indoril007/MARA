@@ -93,7 +93,7 @@ ECSE_func_gen.addButtons(	[ECSE_func_gen_c1b1, ECSE_func_gen_c1b2, ECSE_func_gen
 
 //=======================================================Oscilloscope ENG1002==================================================================================================
 
-var ENG1002_osci = new Device("ENG1002_Oscilloscope");
+var ENG1002_osci = new Device("ENG1002_Oscilloscope2");
 
 var ENG1002_osci_O1_c1b1	 = new Button("Navigation 1", imgRect, 0.06, -0.426, 0.2445, "Use this button to navigate menu items")
 var ENG1002_osci_O1_c1b2	 = new Button("Navigation 2", imgRect, 0.06, -0.426, 0.138, "Use this button to navigate menu items")
