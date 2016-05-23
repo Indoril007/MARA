@@ -39,9 +39,11 @@ var World = {
 			}
 			
 			var tutorials = (devices[i].tutorialButton).getARImageDrawable();
-			tutorials.onClick = function() {
-				document.location = 'architectsdk://hide';
-			}
+			(function(i) {
+				tutorials.onClick = function() {
+					document.location = 'architectsdk://hide-' + i;
+				}
+			}(i));
 			
 			button_drawables.push(tutorials);
 			/*
