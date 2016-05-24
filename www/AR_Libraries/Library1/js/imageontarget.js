@@ -1,4 +1,4 @@
-var GLOBAL_DEBUG_FLAG = true;
+// var GLOBAL_DEBUG_FLAG = true;
 
 var World = {
 	loaded: false,
@@ -7,18 +7,10 @@ var World = {
 	tutorial_stepIndex: 0,
 	
 	init: function initFn() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===========World===========");
-			console.log("init");
-		} 
 		this.createOverlays();
 	},
 
 	createOverlays: function createOverlaysFn() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===========World===========");
-			console.log("createOverlays");
-		} 
 		/*
 			First an AR.ClientTracker needs to be created in order to start the recognition engine. It is initialized with a URL specific to the target collection. Optional parameters are passed as object in the last argument. In this case a callback function for the onLoaded trigger is set. Once the tracker is fully loaded the function worldLoaded() is called.
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
@@ -45,8 +37,7 @@ var World = {
 							var cssDivLeft = " style='display: table-cell;vertical-align: middle; text-align: right; width: 50%; padding-right: 15px;'";
 							var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
 							var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
-							document.getElementById('loadingMessage').innerHTML =
-								"<div" + cssFont + "> " + button.description + " </div>";
+							document.getElementById('loadingMessage').innerHTML = "<div" + cssFont + "> " + button.description + " </div>";
 						}
 						button_drawables.push(imageDrawable);
 					}(key,j));
@@ -55,7 +46,7 @@ var World = {
 				var tutorials = (devices[key].tutorialButton).getARImageDrawable();
 				(function(key) {
 					tutorials.onClick = function() {
-						document.location = 'architectsdk://hide-' + key;
+						document.location = 'architectsdk://tutorials-' + key;
 					}
 				}(key));
 				
@@ -83,13 +74,6 @@ var World = {
 	},
 
 	loadTutorial: function(device_key, tutorial_key) {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===========World===========");
-			console.log("loadTutorial");
-			console.log("device_key: " + device_key);
-			console.log("tutorial_key: " + tutorial_key);
-		} 
-		
 		this.disableTrackedDevices();
 		var tutorial = devices[device_key].tutorials[tutorial_key];
 		var tutorialSteps = tutorial.steps;
@@ -112,52 +96,60 @@ var World = {
 			button_drawables = []; 
 		}	
 		
-		$(window).bind("click", function(event, ui) {
-			console.log("SWIPE REGISTERED ============================================================");
-			console.log(World.tracked_tutorialSteps);
-			console.log(World.tutorial_stepIndex);
+		$("body").prepend("<div class=\"left\"><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>");
+		$("body").prepend("<div class=\"right\"><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>");
+		
+		$(".left").bind("click", function(event, ui) {
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
-			World.tutorial_stepIndex += 1;
+			if (World.tracked_tutorialSteps[World.tutorial_stepIndex - 1]) {
+				World.tutorial_stepIndex -= 1;
+			}
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
+			$('#loadingMessage div').empty();
+			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
+		})
+		
+		$(".right").bind("click", function(event, ui) {
+			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
+			if (World.tracked_tutorialSteps[World.tutorial_stepIndex + 1]) {
+				World.tutorial_stepIndex += 1;
+			}
+			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
+			$('#loadingMessage div').empty();
+			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
 		})
 		
 		this.tracked_tutorialSteps[0].enabled = true;
+		$('#loadingMessage div').empty();
+		$('#loadingMessage div').append(tutorialSteps[0].description);
 	},
 	
 	disableTrackedDevices: function() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===========World===========");
-			console.log("disableTrackedDevices");
-		} 
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = false;
 		}
 	},
 	
 	enableTrackedDevices: function() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===========World===========");
-			console.log("enableTrackedDevices");
-		} 
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = true;
 		}
 	},
 	
 	worldLoaded: function worldLoadedFn() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===========World===========");
-			console.log("worldLoaded");
-		} 
-		var cssDivLeft = " style='display: table-cell;vertical-align: middle; text-align: right; width: 50%; padding-right: 15px;'";
-		var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
+		var cssDivLeft = "style='float: left; height: 100%; width: 100px;'";
+		var cssDivRight = "style='float: right; height: 100%;  width: 100px;'";
 		var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
 		document.getElementById('loadingMessage').innerHTML =
 			"<div" + cssFont + ">Scan for the function generator</div>";
-			/*"<div" + cssDivLeft + ">Scan Target &#35;1 (Monash):</div>" +
-			"<div" + cssDivRight + "><img src='assets/monash.png'></img></div>";
-			*/
-
+			// "<div id=\"left\"" + cssDivLeft + ">blah blah</div>" +
+			// "<div" + cssDivRight + "><img src='assets/monash.png'></img></div>";
+		
+			
+			// "<div" + cssDivLeft + "><span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span></div>" +
+			// "<div" + cssDivRight + "><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>";
+			
+			
 		// Remove Scan target message after 10 sec.
 		// setTimeout(function() {
 			// var e = document.getElementById('loadingMessage');

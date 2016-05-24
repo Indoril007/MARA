@@ -1,4 +1,3 @@
-var GLOBAL_DEBUG_FLAG = true;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,6 +17,14 @@ var GLOBAL_DEBUG_FLAG = true;
  * specific language governing permissions and limitations
  * under the License.
  */
+ 
+// var GLOBAL_DEBUG_FLAG = true;
+
+// function debug() {
+	// console.log("===============")
+	// console.log(Function.caller);
+	// console.log(arguments);
+// }
 
 var menu = {
 	activeMenu: "#libraries",
@@ -29,15 +36,31 @@ var menu = {
 		$(menuID).show();
 	},
 	
-	addMenuItem: function() {
+	addMenuItem: function(menuID, id, content, customAttributes) {
 		
+		var chevronHtml = "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>";
+		var customAttributesHtml = "";
+		if (customAttributes) {
+			for (var key in customAttributes) {
+				if (customAttributes.hasOwnProperty(key)) {
+					customAttributesHtml += "data-" + key + "=\"" + customAttributes[key] + "\" ";
+				}
+			}
+		}
+		
+		var menuHtml = "<div id=\"" + id + "\" class=\"menu-item\" " + customAttributesHtml +">" + chevronHtml + "<span>" + content + "</span></div>";
+		console.log(menuHtml);
+		$(menuID + ' .menu-items').append(menuHtml);
 	},
 	
 	clearMenu: function(menuID) {
-		$(menuID).empty();
+		$(menuID + ' .menu-items').empty();
 	},
 	
-} 
+	initialize: function() {
+		this.activateMenu(this.activeMenu);
+	},
+}; 
  
 var app = {
 
@@ -50,12 +73,7 @@ var app = {
 
     // Application Constructor
     initialize: function() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("===============================")
-			console.log("app")
-			console.log("intialize");
-			console.log("===============================")
-		} 
+
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -63,28 +81,19 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("bindEvents");
-		} 
+
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
 
     onDeviceReady: function(){
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("onDeviceReady");
-		} 
+
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
 
     onDeviceSupported: function(){//what happens when supported
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("onDeviceSupported");
-		} 
+
         app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
 
         app.wikitudePlugin.loadARchitectWorld(
@@ -97,73 +106,50 @@ var app = {
     },
 
     onDeviceNotSupported: function(errorMessage){
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("onDeviceNotSupported");
-			console.log("errorMessage: " + errorMessage);
-		} 
+
         //what happens when not supported
         alert(errorMessage);
     },
 
     onARExperienceLoadedSuccessful: function(loadedURL){
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("onARExperienceLoadedSuccessful");
-			console.log("loadedURL: " + loadedURL);
-		} 
+
         //do something
         //app.wikitudePlugin.callJavaScript('createCircle(new AR.RelativeLocation(null, -10, 0), \'#97FF18\');');
     },
 
     onARExperienceLoadError: function(errorMessage){
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("app");
-			console.log("onARExperienceLoadError");
-			console.log("errorMessage: " + errorMessage);
-		} 
+
         //react on failure
         alert('Loading AR web view failed: ' + errorMessage);
     },
 
 	onURLInvoked: function(url) {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("onURLInvoked");
-			console.log("url: " + url);
-		} 
-		
+
 		// Matching callback url against the format 'architectsdk://[any_characters_here]-[any_characters_here]'
 		var regex = /(architectsdk:\/\/)(.+)-(.+)/g;
 		var match = regex.exec(url);
 		
-		// If callback url has the format 'architectsdk://hide-[device_name]'
-		if (match[2] === "hide")	{
+		// If callback url has the format 'architectsdk://tutorials-[device_name]'
+		if (match[2] === "tutorials")	{
+			
+			menu.clearMenu("#tutorials");
 			
 			// Matching device name
 			var device_key = match[3];
 			var device = devices[device_key]; // getting device with device key
 			var tutorials = device.tutorials; // Getting tutorials from device
 			
-			console.log(device_key);
-			console.log(device.name);
-			
 			// Generating menu items for each tutorial
 			for (var tutorial_key in tutorials) {
 				if (tutorials.hasOwnProperty(tutorial_key)) {
 					var tutorial = tutorials[tutorial_key];
-					var chevronHtml = "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>";
-					var menuHtml = "<div id=\"tutorial-" + device_key + "-" + tutorial_key + "\" data-device=\"" + device_key + "\" data-tutorial=\"" + 
-									tutorial_key + "\" class=\"menu-item\">" + chevronHtml + "<span>" + tutorial.name + "</span></div>";
-					console.log(menuHtml);				
-					$('#tutorials .menu-items').append(menuHtml);
+					var id = "tutorial-" + device_key  + "-" + tutorial_key;
+					menu.addMenuItem('#tutorials', id, tutorial.name, {"device": device_key, "tutorial": tutorial_key});
 				}
 			}
 			
 			// Hiding libraries, Showing Tutorials
-			$('#libraries').hide();
-			$('#tutorials').show();
+			menu.activateMenu("#tutorials");
 			
 			// Binding click functions to menu items
 			$('#tutorials .menu-item').bind("click", function(event, ui) {
@@ -182,29 +168,18 @@ var app = {
 	
 	loadARchitectWorld: function() {
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
-		
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("loadARchitectWorld");
-			console.log("this.arUrl: " + this.arUrl);
-		} 
-		
+
 		// this.arUrl = "www/experience/index.html";
 		app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 
     },
 	
 	loadTutorial: function(device_key, tutorial_key) {
-		if (GLOBAL_DEBUG_FLAG === true) {
-			console.log("============app============");
-			console.log("loadTutorial");
-			console.log("device_key: " + device_key);
-			console.log("tutorial_key: " + tutorial_key);
-		} 
-		
+
 		app.wikitudePlugin.callJavaScript('World.loadTutorial("' + device_key + '","' + tutorial_key + '")');
 		app.wikitudePlugin.show();
 	},
 };
 
+menu.initialize();
 app.initialize();
