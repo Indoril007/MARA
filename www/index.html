@@ -44,6 +44,16 @@
 		$( "#library1" ).bind( "click", function(event, ui) {
 			app.loadARchitectWorld();
 		});
+		
+		$('#tutorials .menu-item').bind("click", function(event, ui) {
+			
+			var device_key = $(this).attr('data-device');
+			var tutorial_key = $(this).attr('data-tutorial');
+			
+			app.loadTutorial(device_key, tutorial_key);
+			
+		});
+		
 	</script>
 	
 </body>

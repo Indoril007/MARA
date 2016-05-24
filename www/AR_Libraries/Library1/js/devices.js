@@ -43,7 +43,7 @@ function Device(name, buttons, tutorialButton, tutorials) {
 	this.name = name;
 	this.buttons = buttons || [];
 	this.tutorialButton = tutorialButton;
-	this.tutorials = tutorials || [];
+	this.tutorials = tutorials || {};
 }
 
 Device.prototype.addButtons = function(buttons, tutorialButton) {
@@ -54,7 +54,7 @@ Device.prototype.addButtons = function(buttons, tutorialButton) {
 }
 
 Device.prototype.addTutorial = function(tutorial) {
-	this.tutorials.push(tutorial);
+	this.tutorials[tutorial.name] = tutorial;
 }
 
 //===========================================================Overlay Library=================================================================================================//
@@ -82,7 +82,7 @@ var ECSE_func_gen_c2b5 = new Button("Arb"	, imgRect	, 0.07, -0.324,-0.013, "Use 
 var ECSE_func_gen_c2b6 = new Button("Other"	, imgRect	, 0.07, -0.324,-0.102, "Use this button to ??");
 var ECSE_func_gen_round = new Button("Top Menu"	, imgRound	, 0.1, -0.511, 0.337, "Use this button to navigate to Top Menu");
 
-var ECSE_func_gen_tutorials = new Button("Tutorials"	, imgTute	, 0.25, -0.45, 0.65, "Clcik this button for tutorials");
+var ECSE_func_gen_tutorials = new Button("Tutorials"	, imgTute	, 0.25, -0.45, 0.65, "Click this button for tutorials");
 var ECSE_func_gen_name = new Button("Name"	, imgName_FG	, 0.4, -0.45, -0.6, "Fill this with simple description on Func Gen");
 
 ECSE_func_gen.addButtons(	[ECSE_func_gen_c1b1, ECSE_func_gen_c1b2, ECSE_func_gen_c1b3, ECSE_func_gen_c1b4, ECSE_func_gen_c1b5,  
@@ -126,5 +126,7 @@ ENG1002_osci.addButtons(	[ENG1002_osci_O1_c1b1, ENG1002_osci_O1_c1b2, ENG1002_os
 //====================================================End of Oscilloscope ENG1002=======================================================================================
 
 
-var devices = [ECSE_func_gen, ENG1002_osci];
+// DO NOT USE DASHES IN THE KEYS OF DEVICES AS THIS WILL CONFLICT WITH CALLBACK-REGEX
+var devices = 	{"ECSE_func_gen": ECSE_func_gen,
+				 "ENG1002_osci": ENG1002_osci };
 

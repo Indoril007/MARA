@@ -74,26 +74,28 @@ var app = {
 	onURLInvoked: function(url) {
 		
 		// Matching callback url against the format 'architectsdk://[any_characters_here]-[any_digits_here]'
-		var regex = /(architectsdk:\/\/)(.+)-(\d+)/g;
+		var regex = /(architectsdk:\/\/)(.+)-(.+)/g;
 		var match = regex.exec(url);
 		
 		console.log('=============================' + url);
 		console.log('=============================' + match[2]);
 		// If callback url has the format 'architectsdk://hide-[any_digits_here]'
 		if (match[2] === "hide")	{
-			var index = match[3];
-			var device = devices[index];
-			console.log(index);
+			var device_key = match[3];
+			var device = devices[device_key];
+			var tutorials = device.tutorials;
+			
+			console.log(device_key);
 			console.log(device.name);
 			
-			for (i = 0; i < device.tutorials.length; i++) {
-			
-				var tutorial = device.tutorials[i];
-			
-				var chevronHtml = "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>";
-				var menuHtml = "<div id=\"tutorial" + i + "\" class=\"menu-item\">" + chevronHtml + "</span><span>" + tutorial.name + "</span></div>";
-				$('#tutorials .menu').append(menuHtml);
-				
+			for (var tutorial_key in tutorials) {
+				if (tutorials.hasOwnProperty(tutorial_key)) {
+					var tutorial = tutorials[tutorial_key];
+					var chevronHtml = "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>";
+					var menuHtml = "<div id=\"tutorial-" + device_key + "-" + tutorial_key + "\" data-device=\"" + device_key + "\" data-tutorial=\"" + 
+									tutorial_key + "\"class=\"menu-item\">" + chevronHtml + "</span><span>" + tutorial.name + "</span></div>";
+					$('#tutorials .menu').append(menuHtml);
+				}
 			}
 			
 			$('#libraries').hide();
@@ -110,6 +112,10 @@ var app = {
 		app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 
     },
+	
+	loadTutorial: function(device_key, tutorial_key) {
+		app.wikitudePlugin.callJavaScript('World.loadTutorial("' + device_key + '","' + tutorial_key + '")')
+	},
 };
 
 app.initialize();
