@@ -22,3 +22,8 @@ Description of wtc file version
 	Removed:
 	ENG1002_Oscilloscope2
 }
+
+.v5{
+	Added: ENG1002_OS,FG : camera version taken with normal light condition in lab	
+}
+}

@@ -11,7 +11,7 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
-		this.tracker = new AR.ClientTracker("assets/MARA_v4.wtc", {
+		this.tracker = new AR.ClientTracker("assets/MARA_v5.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -35,7 +35,7 @@ var World = {
 		//Augmentation of "Tutorial" button and name of equipment
 		var Tutorial = new AR.ImageDrawable(imgTute, 0.25, {
 			offsetX: -0.45,
-			offsetY: -0.65,
+			offsetY: -0.75,
 			onClick: function() {
 			//load tutorial contents here
 			}
@@ -94,23 +94,53 @@ var World = {
 
 		// Column 1 Button 1
 		// O1 = Oscilloscope 1002
-		var O1_c1b1 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.426,offsetY: 0.2445		});
+		var O1_c1b1 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.546,offsetY: 0.205		});
+		var O1_c1b2 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.546,offsetY: 0.0635		});
+		var O1_c1b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.546,offsetY: -0.069		});
+		var O1_c1b4 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.546,offsetY: -0.205		});
+		var O1_c1b5 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.546,offsetY: -0.335	});
+		var O1_round1 = new AR.ImageDrawable(imgRound, 0.1, {			offsetX: -0.532,offsetY: -0.4615	});
 
-		var O1_c1b2 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.426,offsetY: 0.138		});
+		var O1_c2b1 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: -0.408,offsetY:  -0.025	});
+		var O1_c2b2 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: -0.408,offsetY:  -0.1715	});		
+		var O1_c2b3 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: -0.408,offsetY:  -0.3248	});
 
-		var O1_c1b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.426,offsetY: 0.0315		});
+		var O1_c3b1 = new AR.ImageDrawable(imgRound, 0.125, {	offsetX: -0.2544,offsetY:  -0.0655	});
+		var O1_c3b2 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: -0.2544,offsetY:  -0.1715	});		
+		var O1_c3b3 = new AR.ImageDrawable(imgRound, 0.17,{			offsetX: -0.2544,offsetY:  -0.38	});
 
-		var O1_c1b4 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.426,offsetY: -0.075		});
+		var O1_c4b1 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.0971,offsetY: 0.4001 });
+		var O1_c4b2 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.0971,offsetY:  0.2751	});	
+		var O1_c4b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.0971,offsetY:  0.1518	});
 
-		var O1_c1b5 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.426,offsetY: -0.1815	});
+		var O1_c5b1 = new AR.ImageDrawable(imgRound, 0.125, {		offsetX: 0.01,offsetY:  -0.0655	});
+		var O1_c5b2 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: 0.01,offsetY:  -0.1715	});		
+		var O1_c5b3 = new AR.ImageDrawable(imgRound, 0.17,{			offsetX: 0.015,offsetY:  -0.38	});
 
-		var O1_round1 = new AR.ImageDrawable(imgRound, 0.1, {			offsetX: -0.42,offsetY: -0.28	});
+		var O1_c6b1 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.0955,offsetY: 0.4001 });
+		var O1_c6b2 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.0955,offsetY:  0.2751	});	
+		var O1_c6b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.0955,offsetY:  0.1518	});
+		
+		var O1_c7b1 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.2942,offsetY:  0.3981	});
+		var O1_c7b2 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.2942,offsetY:  0.2751	});		
+		var O1_c7b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.2942,offsetY:  0.1518	});
+		var O1_c7b4 = new AR.ImageDrawable(imgRound, 0.125, {		offsetX: 0.2942,offsetY:  -0.0655	});
+		var O1_c7b5 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.2942,offsetY:  -0.1715	});		
+		var O1_c7b6 = new AR.ImageDrawable(imgRound, 0.17,{			offsetX: 0.2942,offsetY:  -0.38	});
 
-		var O1_mult_purpose_knob = new AR.ImageDrawable(imgRound, 0.25, {			offsetX: -0.224,offsetY: 0.328		});
+		var O1_c8b1 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.476,offsetY:  0.4001	});
+		var O1_c8b2 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.476,offsetY:  0.2751	});		
+		var O1_c8b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.476,offsetY:  0.1518	});
+		var O1_c8b4 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: 0.476,offsetY:  -0.025	});
+		var O1_c8b5 = new AR.ImageDrawable(imgRound, 0.125, {		offsetX: 0.513,offsetY:  -0.2421	});		
+		var O1_c8b6 = new AR.ImageDrawable(imgOne, 0.06,{			offsetX: 0.476,offsetY:  -0.3248	});
 
-		var ENG1002_osci = new AR.Trackable2DObject(this.tracker, "ENG1002_Oscilloscope", {
+
+		var O1_mult_purpose_knob = new AR.ImageDrawable(imgRound, 0.25, {			offsetX: -0.327,offsetY: 0.25		});
+
+		var ENG1002_osci = new AR.Trackable2DObject(this.tracker, "ENG1002_OS", {
 			drawables: {
-				cam: [Tutorial,Eq_name_Os,O1_c1b1, O1_c1b2, O1_c1b3, O1_c1b4, O1_c1b5, O1_round1,O1_mult_purpose_knob]
+				cam: [Tutorial,Eq_name_Os,O1_c1b1, O1_c1b2, O1_c1b3, O1_c1b4, O1_c1b5, O1_round1,O1_mult_purpose_knob, O1_c2b1 , O1_c2b2, O1_c2b3, O1_c3b1, O1_c3b2, O1_c3b3, O1_c5b1, O1_c5b2, O1_c5b3, O1_c7b1 ,O1_c7b2 ,O1_c7b3 ,O1_c7b4,O1_c7b5,O1_c7b6,O1_c8b1,O1_c8b2,O1_c8b3,O1_c8b4,O1_c8b5,O1_c8b6,O1_c4b1,O1_c4b2,O1_c4b3,O1_c6b1,O1_c6b2,O1_c6b3]
 			}
 		});
 		//====================================================End of Oscilloscope ENG1002=============================================================================================
@@ -153,6 +183,8 @@ var World = {
 
 		
 		//====================================Power Supply ENG1002==========================================================================================================================================
+		var Eq_name_PS = new AR.ImageDrawable(imgName_PS, 0.4, {		offsetX: -0.45,offsetY: 0.65	});
+
 		var ps_round1 = new AR.ImageDrawable(imgRound, 0.3, {
 			offsetX: -0.085,
 			offsetY: 0.26,
@@ -170,13 +202,56 @@ var World = {
 
 		var ENG1002_power = new AR.Trackable2DObject(this.tracker, "ENG1002_PowerSupply", {
 			drawables: {
-				cam: [ps_round1, ps_round2, ps_rect]
+				cam: [Tutorial, Eq_name_PS, ps_round1, ps_round2, ps_rect]
 				//cam: [c1b1,c1b2,c1b3,c1b4,c1b5, c2b1,c2b2,c2b3,c2b4,c2b5,c2b6, round_button]
 			}
 		}); 
-
-
 		//====================================End of Power Supply ENG1002=========================================================================================================================================	
+
+		//=======================================================ENG1002 Function Generator ===========================================================================================
+		
+
+		var fg_c1b1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY:  0.305		});
+		var fg_c1b2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY:  0.2091	});
+		var fg_c1b3 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY:  0.1106	});
+		var fg_c1b4 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY:  0.0019	});
+		var fg_c1b5 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY: -0.0968	});
+		var fg_c1b6 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY: -0.2055	});
+		
+		var fg_r1b1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -1.521,offsetY: -0.3757	});
+		var fg_r1b2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -1.3629,offsetY: -0.3757	});
+		var fg_r1b3 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -1.2048,offsetY: -0.3757	});
+		var fg_r1b4 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -1.0467,offsetY: -0.3757	});
+		var fg_r1b5 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.8886,offsetY: -0.3757	});	
+		var fg_r1b6 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.7305,offsetY: -0.3757	});
+		var fg_r1b7 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.5724,offsetY: -0.3757	});
+	
+		var fg_c2b1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.3785,offsetY:  0.2933	});
+		var fg_c2b2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.3785,offsetY:  0.1653	});
+		var fg_c2b3 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.3785,offsetY:  0.0512	});
+		var fg_c2b4 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.3785,offsetY: -0.0768	});
+
+		var fg_c3b1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX: -0.1979,offsetY:  0.2933	});
+		var fg_c4b1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  -0.0397,offsetY:  0.2933	});
+		var fg_c5b1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.1473,offsetY:  0.2933	});
+		var fg_c5b2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.1573,offsetY:  0.1781	});
+		var fg_c5b3 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.1573,offsetY:  0.1081	});
+		var fg_c5b4 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.1573,offsetY: -0.0768	});
+
+		var fg_c6knob = new AR.ImageDrawable(imgRound, 0.19, { offsetX: 0.3971,offsetY: 0.2357	});
+		var fg_c6lb1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.2953,offsetY:  0.06865	});
+		var fg_c6lb2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.2954,offsetY:  -0.0768	});
+		var fg_c6rb1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.4473,offsetY:  0.06865	});
+		var fg_c6rb2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.4473,offsetY:  -0.0768	});
+
+		var ENG1002_fg = new AR.Trackable2DObject(this.tracker, "ENG1002_FG", {
+			drawables: {
+				cam: [Tutorial,Eq_name_FG, fg_c1b1,fg_c1b2,fg_c1b3,fg_c1b4,fg_c1b5,fg_c1b6,fg_c2b1,fg_c2b2,fg_c2b3,fg_c2b4,fg_r1b1,fg_r1b2,fg_r1b3,fg_r1b4,fg_r1b5,fg_r1b6,fg_r1b7,fg_c3b1,fg_c4b1,fg_c5b1,fg_c5b2,fg_c5b3,fg_c5b4,fg_c6knob,fg_c6lb1,fg_c6lb2,fg_c6rb1,fg_c6rb2]
+			}
+		});
+
+		//=======================================================End of ENG1002 Function Generator===========================================================================================
+
 	},
 
 	worldLoaded: function worldLoadedFn() {
