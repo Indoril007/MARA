@@ -108,7 +108,7 @@ var app = {
 	loadARchitectWorld: function() {
 		
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
-		// this.arUrl = "www/experience/index.html";
+		//this.arUrl = "www/experience/index.html";
 		app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 
     },

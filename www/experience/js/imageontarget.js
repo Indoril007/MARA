@@ -23,6 +23,7 @@ var World = {
 			===========================================================Overlay Library=================================================================================================
 		*/
 		var imgOne = new AR.ImageResource("assets/marker1.png");
+		var imgCircle = new AR.ImageResource("assets/circle.png")
 		var imgRound = new AR.ImageResource("assets/RoundMarker.png");
 		var imgTwo = new AR.ImageResource("assets/marker2.png");
 		var imgTute = new AR.ImageResource("assets/Tute-button.png");
@@ -243,6 +244,9 @@ var World = {
 		var fg_c6lb2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.2954,offsetY:  -0.0768	});
 		var fg_c6rb1 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.4473,offsetY:  0.06865	});
 		var fg_c6rb2 = new AR.ImageDrawable(imgOne, 0.05, {	offsetX:  0.4473,offsetY:  -0.0768	});
+
+		//this variable is ONLY meant to show in the tutorials
+		//var fg_temp = new AR.ImageDrawable(imgCircle, 0.52, {offsetX: -0.0795, offsetY: 0.02825});
 
 		var ENG1002_fg = new AR.Trackable2DObject(this.tracker, "ENG1002_FG", {
 			drawables: {
