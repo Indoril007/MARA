@@ -26,4 +26,9 @@ Description of wtc file version
 .v5{
 	Added: ENG1002_OS,FG : camera version taken with normal light condition in lab	
 }
+
+.v6{
+	Added:
+	Lab_PowerSupply: camera version
+}
 }

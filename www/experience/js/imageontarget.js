@@ -11,7 +11,7 @@ var World = {
 			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
 			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
 		*/
-		this.tracker = new AR.ClientTracker("assets/MARA_v4.wtc", {
+		this.tracker = new AR.ClientTracker("assets/MARA_v5.wtc", {
 			onLoaded: this.worldLoaded
 		});
 
@@ -107,8 +107,8 @@ var World = {
 		var r6b2 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: -0.0855,offsetY: -0.1099		});
 		var r6b3 = new AR.ImageDrawable(imgOne, 0.05, {			offsetX: 0.0261,offsetY: -0.1099		});	
 
-		// key pad
-		var keypad = new AR.ImageDrawable(imgRound, 0.5, {			offsetX: 0.2794,offsetY: -0.0386			});
+		// key pad for tutorial
+		//var keypad = new AR.ImageDrawable(imgRound, 0.5, {			offsetX: 0.2794,offsetY: -0.0386			});
 
 
 
@@ -127,7 +127,7 @@ var World = {
 					r4b1, r4b2,
 					r5b1, r5b2,
 					r6b1, r6b2, r6b3,
-					keypad
+					//keypad
 					]
 			}
 		});
@@ -136,16 +136,19 @@ var World = {
 		//=============================================================Power Supply ECSE Lab===========================================================================================
 		var Eq_name_PS = new AR.ImageDrawable(imgName_PS, 0.4, {		offsetX: -0.45,offsetY: 0.65	});
 
+		/*
+		Measurements! delete when finished!
+		horizontal 100 pixel = 0.103733333333
+		vertical 100 pxel = 0.050075
+		*/
+
+		// Lab Power Supply - knob 1
+		var LPS_k1 = new AR.ImageDrawable(imgRound, 0.15, {			offsetX: 0.2054,offsetY: 0.3425		});
+
 		var ECSE_pow_supp = new AR.Trackable2DObject(this.tracker, "Lab_PowerSupply", {
 			drawables: {
-				cam: [Tutorial,Eq_name_Os,
-					OL_c1b1, OL_c1b2, OL_c1b3, OL_c1b4, OL_c1b5, OL_round1,
-					OL_mult_purpose_knob, OL_r1b1, OL_r1b2, OL_r1b3, OL_r1b4, OL_r1b5, OL_r1b6, 
-					OL_r2b1, OL_r2b2, OL_r2b3, OL_r2b4, OL_r2b5, OL_r2b6, OL_run_stop,
-					OL_r3b1, OL_r3b2, OL_r3b3, OL_r3b4, OL_r3b5_knob, OL_r3b6, OL_r3b7,
-					OL_r4b1, OL_r4b2, OL_r4b3, OL_r4b4, OL_r4b5,
-					OL_r5b1, OL_r5b2, OL_r5b3, OL_r5b4, OL_r5b5, OL_r5b6,
-					OL_r6b1, OL_r6b2, OL_r6b3, OL_r6b4, OL_r6b5,
+				cam: [Tutorial,Eq_name_PS,
+					LPS_k1
 					]
 			}
 		});
