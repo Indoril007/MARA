@@ -1,3 +1,4 @@
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -16,6 +17,51 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ 
+// var GLOBAL_DEBUG_FLAG = true;
+
+// function debug() {
+	// console.log("===============")
+	// console.log(Function.caller);
+	// console.log(arguments);
+// }
+
+var menu = {
+	activeMenu: "#libraries",
+	activeMenuItems: [],
+	
+	activateMenu: function(menuID) {
+		this.activeMenu = menuID;
+		$('.menu').hide();
+		$(menuID).show();
+	},
+	
+	addMenuItem: function(menuID, id, content, customAttributes) {
+		
+		var chevronHtml = "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>";
+		var customAttributesHtml = "";
+		if (customAttributes) {
+			for (var key in customAttributes) {
+				if (customAttributes.hasOwnProperty(key)) {
+					customAttributesHtml += "data-" + key + "=\"" + customAttributes[key] + "\" ";
+				}
+			}
+		}
+		
+		var menuHtml = "<div id=\"" + id + "\" class=\"menu-item\" " + customAttributesHtml +">" + chevronHtml + "<span>" + content + "</span></div>";
+		console.log(menuHtml);
+		$(menuID + ' .menu-items').append(menuHtml);
+	},
+	
+	clearMenu: function(menuID) {
+		$(menuID + ' .menu-items').empty();
+	},
+	
+	initialize: function() {
+		this.activateMenu(this.activeMenu);
+	},
+}; 
+ 
 var app = {
 
     requiredFeatures : ["2d_tracking", "geo"],
@@ -27,7 +73,7 @@ var app = {
 
     // Application Constructor
     initialize: function() {
-		console.log("================================================================================INITIALISED");
+
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -35,16 +81,19 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
+
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
 
     onDeviceReady: function(){
+
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
 
     onDeviceSupported: function(){//what happens when supported
+
         app.wikitudePlugin.setOnUrlInvokeCallback(app.onURLInvoked);
 
         app.wikitudePlugin.loadARchitectWorld(
@@ -57,65 +106,79 @@ var app = {
     },
 
     onDeviceNotSupported: function(errorMessage){
+
         //what happens when not supported
         alert(errorMessage);
     },
 
     onARExperienceLoadedSuccessful: function(loadedURL){
+
         //do something
         //app.wikitudePlugin.callJavaScript('createCircle(new AR.RelativeLocation(null, -10, 0), \'#97FF18\');');
     },
 
     onARExperienceLoadError: function(errorMessage){
+
         //react on failure
         alert('Loading AR web view failed: ' + errorMessage);
     },
 
 	onURLInvoked: function(url) {
-		
-		// Matching callback url against the format 'architectsdk://[any_characters_here]-[any_digits_here]'
+
+		// Matching callback url against the format 'architectsdk://[any_characters_here]-[any_characters_here]'
 		var regex = /(architectsdk:\/\/)(.+)-(.+)/g;
 		var match = regex.exec(url);
 		
-		console.log('=============================' + url);
-		console.log('=============================' + match[2]);
-		// If callback url has the format 'architectsdk://hide-[any_digits_here]'
-		if (match[2] === "hide")	{
+		// If callback url has the format 'architectsdk://tutorials-[device_name]'
+		if (match[2] === "tutorials")	{
+			
+			menu.clearMenu("#tutorials");
+			
+			// Matching device name
 			var device_key = match[3];
-			var device = devices[device_key];
-			var tutorials = device.tutorials;
+			var device = devices[device_key]; // getting device with device key
+			var tutorials = device.tutorials; // Getting tutorials from device
 			
-			console.log(device_key);
-			console.log(device.name);
-			
+			// Generating menu items for each tutorial
 			for (var tutorial_key in tutorials) {
 				if (tutorials.hasOwnProperty(tutorial_key)) {
 					var tutorial = tutorials[tutorial_key];
-					var chevronHtml = "<span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>";
-					var menuHtml = "<div id=\"tutorial-" + device_key + "-" + tutorial_key + "\" data-device=\"" + device_key + "\" data-tutorial=\"" + 
-									tutorial_key + "\"class=\"menu-item\">" + chevronHtml + "</span><span>" + tutorial.name + "</span></div>";
-					$('#tutorials .menu').append(menuHtml);
+					var id = "tutorial-" + device_key  + "-" + tutorial_key;
+					menu.addMenuItem('#tutorials', id, tutorial.name, {"device": device_key, "tutorial": tutorial_key});
 				}
 			}
 			
-			$('#libraries').hide();
-			$('#tutorials').show();
+			// Hiding libraries, Showing Tutorials
+			menu.activateMenu("#tutorials");
+			
+			// Binding click functions to menu items
+			$('#tutorials .menu-item').bind("click", function(event, ui) {
+				console.log("CLICK REGISTERED=====================================================");
+				var device_key = $(this).attr('data-device');
+				var tutorial_key = $(this).attr('data-tutorial');
+				
+				app.loadTutorial(device_key, tutorial_key);
+			});
+			
+			// Hiding the architect world
 			app.wikitudePlugin.hide();
 		}
 		
 	},
 	
 	loadARchitectWorld: function() {
-		
 		//this.arUrl = "www/AR_Libraries/Library1/index.html";
-		this.arUrl = "www/experience/index.html";
+
 		app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 
     },
 	
 	loadTutorial: function(device_key, tutorial_key) {
-		app.wikitudePlugin.callJavaScript('World.loadTutorial("' + device_key + '","' + tutorial_key + '")')
+
+		app.wikitudePlugin.callJavaScript('World.loadTutorial("' + device_key + '","' + tutorial_key + '")');
+		app.wikitudePlugin.show();
 	},
 };
 
+menu.initialize();
 app.initialize();

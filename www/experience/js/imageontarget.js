@@ -23,6 +23,7 @@ var World = {
 			===========================================================Overlay Library=================================================================================================
 		*/
 		var imgOne = new AR.ImageResource("assets/marker1.png");
+		var imgCircle = new AR.ImageResource("assets/circle.png")
 		var imgRound = new AR.ImageResource("assets/RoundMarker.png");
 		var imgTwo = new AR.ImageResource("assets/marker2.png");
 		var imgTute = new AR.ImageResource("assets/Tute-button.png");

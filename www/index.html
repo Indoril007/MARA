@@ -9,13 +9,14 @@
 	<title></title>
 </head>
 <body>
-	<div id="libraries">
+	<div id="libraries" class="menu" hidden>
 		<div class="header">
 			<span>Select your AR Library</span>
 			<span class="right">Add Library</span>
 			<span class="glyphicon glyphicon-plus right" aria-hidden="true"></span>
 		</div>
-		<div class="menu">
+		
+		<div class="menu-items">
 			<div id="library1" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 1</span></div>
 			<div id="library2" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 2</span></div>
 			<div id="library3" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 3</span></div>
@@ -23,14 +24,18 @@
 			<div id="library5" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 5</span></div>
 		</div>
 	</div>
-	<div id="tutorials" hidden>
+	
+	<div id="tutorials" class="menu" hidden>
+	
 		<div class="header">
 			<span>Select Tutorial</span>
 			<span class="right">Add Tutorial</span>
 			<span class="glyphicon glyphicon-plus right" aria-hidden="true"></span>
 		</div>
-		<div class="menu">
+		
+		<div class="menu-items">
 		</div>
+		
 	</div>
 
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -43,15 +48,6 @@
 	<script type="text/javascript">
 		$( "#library1" ).bind( "click", function(event, ui) {
 			app.loadARchitectWorld();
-		});
-		
-		$('#tutorials .menu-item').bind("click", function(event, ui) {
-			
-			var device_key = $(this).attr('data-device');
-			var tutorial_key = $(this).attr('data-tutorial');
-			
-			app.loadTutorial(device_key, tutorial_key);
-			
 		});
 		
 	</script>
