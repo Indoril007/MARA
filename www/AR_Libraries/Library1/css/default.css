@@ -5,22 +5,56 @@ html, body {
 }
 
 .info {
-	font-size: 30px;;
-	position: absolute;
 	width: 100%;
-	padding-top: 12px;
-	padding-bottom: 12px;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: transparent;
+	border: 1px solid green;
+}
+
+#top {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#bottom {
+	padding: 0 10%;
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+}
+
+#backButton {
+	font-size: 34px;
+	border: 1px solid yellow;
+	float: left;
+	margin: 0;
+	text-align: center;
+	width: 12%;
+}
+
+#loadingMessage {
+	font-size: 34px;
+	border: 1px solid yellow;
+	margin: 0;
+	width: 100%;
 	color: #0182b9;
 	font-style: bold;
 	text-shadow: 1px 1px 4px black;
-	background-color: transparent;
-	text-align: center;
-	top: 0;
-	left: 0;
-	display: table;
 }
 
-.left, .right {
+#help {
+	font-size: 34px;
+	border: 1px solid yellow;
+	float: right;
+	text-align: center;
+	margin: 0;
+	width: 12%;
+}
+
+.tuteButton {
 	position: relative;
 	top: 50%;
 	height: 80px;
@@ -34,11 +68,15 @@ html, body {
 }
 
 .left {
+	clear: left;
+	border: 1px solid yellow;
 	float: left;
 	color: grey;
 }
 
 .right {
+	clear: right;
+	border: 1px solid yellow;
 	float: right;
 	color: #0182b9;
 }

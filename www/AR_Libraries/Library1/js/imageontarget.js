@@ -1,28 +1,24 @@
 // var GLOBAL_DEBUG_FLAG = true;
 
 var World = {
+	tracked: null,
 	loaded: false,
+	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu
 	tracked_devices: [],
 	tracked_tutorialSteps: [],
 	tutorial_stepIndex: 0,
 	
 	init: function initFn() {
-		this.createOverlays();
-	},
-
-	createOverlays: function createOverlaysFn() {
-		/*
-			First an AR.ClientTracker needs to be created in order to start the recognition engine. It is initialized with a URL specific to the target collection. Optional parameters are passed as object in the last argument. In this case a callback function for the onLoaded trigger is set. Once the tracker is fully loaded the function worldLoaded() is called.
-			Important: If you replace the tracker file with your own, make sure to change the target name accordingly.
-			Use a specific target name to respond only to a certain target or use a wildcard to respond to any or a certain group of targets.
-		*/
+		
 		this.tracker = new AR.ClientTracker("assets/MARA_v5.wtc", {
 			onLoaded: this.worldLoaded
 		});
+		this.loadDevices();
+	},
 
-		/*
-			The next step is to create the augmentation. In this example an image resource is created and passed to the AR.ImageDrawable. A drawable is a visual component that can be connected to an IR target (AR.Trackable2DObject) or a geolocated object (AR.GeoObject). The AR.ImageDrawable is initialized by the image and its size. Optional parameters allow for position it relative to the recognized target.
-		*/
+	loadDevices: function loadDevices() {
+		World.disableTutorials();
+		World.state = 1;
 		
 		var button_drawables = [];
 		
@@ -80,79 +76,85 @@ var World = {
 	},
 
 	loadTutorial: function(device_key, tutorial_key) {
-		this.disableTrackedDevices();
-		var tutorial = devices[device_key].tutorials[tutorial_key];
+		// Disable device tracking in lieu of tracking for tutorial
+		World.disableTrackedDevices();
+		World.disableTutorials();
+		World.state = 2;
+		
+		// Grab tutorial
+		var device = devices[device_key];
+		var tutorial = device.tutorials[tutorial_key];
 		var tutorialSteps = tutorial.steps;
 		
-		for (i = 0; i < tutorialSteps.length; i++) {
-			var step_buttons = tutorialSteps[i].buttons;
-			var button_drawables = []; 
-			 
-			for (j = 0; j < step_buttons.length; j++) {
-				button_drawables.push(step_buttons[j].getARImageDrawable());
-			}
-			
-			this.tracked_tutorialSteps[i] = new AR.Trackable2DObject(this.tracker, devices[device_key].name, {
-				drawables: {
-					cam: button_drawables,
-				},
-				enabled: false,
-			});
-			
-			button_drawables = []; 
-		}	
+		// set tracked steps
+		World.tracked_tutorialSteps = World.getTrackableTutorialSteps(device, tutorial);
+
+		// Show tute buttons
+		$(".tuteButton").show();
 		
-		$("body").prepend("<div class=\"left\"><span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span></div>");
-		$("body").prepend("<div class=\"right\"><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>");
-		
+		//Bind click funtion to left button
 		$(".left").bind("click", function(event, ui) {
-			$(this).animate({
-				color: "green",
-			}, 10, 'linear', function(){
-				$(this).animate({
-					color: "#0182b9",
-				}, 250);
-			});
-			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
+			var activate_color = "green";
+			var passive_color = "#0182b9"
+			
 			if (World.tracked_tutorialSteps[World.tutorial_stepIndex - 1]) {
+				(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
 				World.tutorial_stepIndex -= 1;
-				if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex - 1])) {
-					$(this).css("color", "grey");
-				} 
+				(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
+				$(".right").css("color", "#0182b9");
+			} else {
+				activate_color = "red";
 			}
 			
-			$(".right").css("color", "#0182b9");
+			if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex - 1])) {
+				passive_color = "grey"
+			}
 			
-			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
-			$('#loadingMessage div').empty();
-			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
-		})
-		
-		$(".right").bind("click", function(event, ui) {
 			$(this).animate({
-				color: "green",
+				color: activate_color,
 			}, 10, 'linear', function(){
-				console.log("turning blue");
 				$(this).animate({
-					color: "#0182b9",
-				}, 250);
+					color: passive_color,
+				}, 250)
 			});
-			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
-			if (World.tracked_tutorialSteps[World.tutorial_stepIndex + 1]) {
-				World.tutorial_stepIndex += 1;
-				if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex + 1])) {
-					console.log("turning grey");
-					$(this).css("color", "grey");
-				} 
-			}
-			
-			$(".left").css("color", "#0182b9");
-			
-			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
+
 			$('#loadingMessage div').empty();
 			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
-		})
+		});
+		// World.bindTutorialButton("left", tutorialSteps);
 		
+		// Bind click funtion to right button
+		$(".right").bind("click", function(event, ui) {
+			var activate_color = "green";
+			var passive_color = "#0182b9"
+			
+			if (World.tracked_tutorialSteps[World.tutorial_stepIndex + 1]) {
+				(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
+				World.tutorial_stepIndex += 1;
+				(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
+				$(".left").css("color", "#0182b9");
+			} else {
+				activate_color = "red";
+			}
+			
+			if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex + 1])) {
+				passive_color = "grey"
+			}
+			
+			$(this).animate({
+				color: activate_color,
+			}, 10, 'linear', function(){
+				$(this).animate({
+					color: passive_color,
+				}, 250)
+			});
+
+			$('#loadingMessage div').empty();
+			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
+		});
+		// World.bindTutorialButton("right", tutorialSteps);
+		
+		//Initialization for step 1
 		this.tracked_tutorialSteps[0].enabled = true;
 		$('#loadingMessage div').empty();
 		$('#loadingMessage div').append(tutorialSteps[0].description);
@@ -165,17 +167,103 @@ var World = {
 	},
 	
 	enableTrackedDevices: function() {
+		World.state = 1;
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = true;
 		}
 	},
 	
+	disableTutorials: function() {
+		World.tracked_tutorialSteps = [];
+		World.tutorial_stepIndex = 0;
+	},
+	
+	getTrackableTutorialSteps: function(device, tutorial) {
+		var tutorialSteps = tutorial.steps;
+		var trackableSteps = [];
+		for (i = 0; i < tutorialSteps.length; i++) {
+			var step_buttons = tutorialSteps[i].buttons;
+			var button_drawables = []; 
+			 
+			for (j = 0; j < step_buttons.length; j++) {
+				button_drawables.push(step_buttons[j].getARImageDrawable());
+			}
+			
+			trackableSteps[i] = new AR.Trackable2DObject(this.tracker, device.name, {
+				drawables: {
+					cam: button_drawables,
+				},
+				enabled: false,
+			});
+			
+			button_drawables = []; 
+		}	
+		
+		return trackableSteps;
+	},
+	
+	// bindTutorialButton: function(direction, tutorialSteps) {
+		// if (direction === "right") {
+			// var buttonClass = ".right";
+			// var oppositeButtonClass = ".left";
+			// var step = 1;
+		// } else if (direction === "left") {
+			// var buttonClass = ".left";
+			// var oppositeButtonClass = ".right";
+			// var step = -1;
+		// }
+		
+		// $(buttonClass).bind("click", function(event, ui) {
+			// var activate_color = "green";
+			// var passive_color = "#0182b9"
+			
+			// if (World.tracked_tutorialSteps[World.tutorial_stepIndex + step]) {
+				// (World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
+				// World.tutorial_stepIndex += step;
+				// (World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
+				// $(oppositButtonClass).css("color", "#0182b9");
+			// } else {
+				// activate_color = "red";
+			// }
+			
+			// if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex + step])) {
+				// passive_color = "grey"
+			// }
+			
+			// $(this).animate({
+				// color: activate_color,
+			// }, 10, 'linear', function(){
+				// $(this).animate({
+					// color: passive_color,
+				// }, 250)
+			// });
+
+			// $('#loadingMessage div').empty();
+			// $('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
+		// });
+	// },
+	
 	worldLoaded: function worldLoadedFn() {
-		var cssDivLeft = "style='float: left; height: 100%; width: 100px;'";
-		var cssDivRight = "style='float: right; height: 100%;  width: 100px;'";
-		var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
+		// var cssDivLeft = "style='float: left; height: 100%; width: 100px;'";
+		// var cssDivRight = "style='float: right; height: 100%;  width: 100px;'";
+		// var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
 		document.getElementById('loadingMessage').innerHTML =
-			"<div" + cssFont + ">Scan for the function generator</div>";
+			"<span id=\"loadingMessage\">Scan for the function generator</div>";
+			
+		$("#backButton").bind("click", function(event, ui) {
+			World.onBackKeyDown();
+		})
+		// $("html").swipe( {
+			// //Generic swipe handler for all directions
+			// swipeRight:function(event, direction, distance, duration, fingerCount, fingerData) {
+				// document.location = 'architectsdk://menu-tutorials';
+			// },
+			
+			// // swipeLeft:function(event, direction, distance, duration, fingerCount, fingerData) {
+				// // app.wikitudePlugin.show();
+			// // }
+		// });
+			
 			// "<div id=\"left\"" + cssDivLeft + ">blah blah</div>" +
 			// "<div" + cssDivRight + "><img src='assets/monash.png'></img></div>";
 		
@@ -189,8 +277,17 @@ var World = {
 			// var e = document.getElementById('loadingMessage');
 			// e.parentElement.removeChild(e);
 		// }, 10000);
+	},
+	
+	onBackKeyDown: function() {
+		console.log("===========================================back button pressed")
+		if (World.state === 2) {
+			World.state = 3;
+			document.location = 'architectsdk://menu-tutorials';
+		}
 	}
 };
 
 World.init();
+
 
