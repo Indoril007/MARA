@@ -134,26 +134,6 @@ var World = {
 		});
 		//====================================================End of Function Generator ECSE Lab=======================================================================================
 
-		//=============================================================Power Supply ECSE Lab===========================================================================================
-		var Eq_name_PS = new AR.ImageDrawable(imgName_PS, 0.4, {		offsetX: -0.45,offsetY: 0.65	});
-
-		/*
-		Measurements! delete when finished!
-		horizontal 100 pixel = 0.103733333333
-		vertical 100 pxel = 0.050075
-		*/
-
-		// Lab Power Supply - knob 1
-		var LPS_k1 = new AR.ImageDrawable(imgRound, 0.15, {			offsetX: 0.2054,offsetY: 0.3425		});
-
-		var ECSE_pow_supp = new AR.Trackable2DObject(this.tracker, "Lab_PowerSupply", {
-			drawables: {
-				cam: [Tutorial,Eq_name_PS,
-					LPS_k1
-					]
-			}
-		});
-		//==========================================================End of Power Supply ECSE Lab=======================================================================================
 
 		//=======================================================Oscilloscope ECSE Lab=================================================================================================
 		var Eq_name_Os = new AR.ImageDrawable(imgName_Os, 0.4, {		offsetX: -0.45,offsetY: 0.65	});	
@@ -171,7 +151,7 @@ var World = {
 		var OL_c1b3 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.6,offsetY: 0.0635		});
 		var OL_c1b4 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.6,offsetY: -0.044		});
 		var OL_c1b5 = new AR.ImageDrawable(imgOne, 0.06, {			offsetX: -0.6,offsetY: -0.1505	});
-		var OL_round1 = new AR.ImageDrawable(imgRound, 0.08, {			offsetX: -0.6,offsetY: -0.253	});
+		var OL_c1b6_round = new AR.ImageDrawable(imgRound, 0.08, {			offsetX: -0.6,offsetY: -0.253	});
 
 		// TOP PART BUTTONS
 		var OL_mult_purpose_knob = new AR.ImageDrawable(imgRound, 0.2, {			offsetX: -0.377,offsetY: 0.383		});
@@ -235,7 +215,7 @@ var World = {
 		var ECSE_func_gen = new AR.Trackable2DObject(this.tracker, "Lab_Oscilloscope", {
 			drawables: {
 				cam: [Tutorial,Eq_name_Os,
-					OL_c1b1, OL_c1b2, OL_c1b3, OL_c1b4, OL_c1b5, OL_round1,
+					OL_c1b1, OL_c1b2, OL_c1b3, OL_c1b4, OL_c1b5, OL_c1b6_round,
 					OL_mult_purpose_knob, OL_r1b1, OL_r1b2, OL_r1b3, OL_r1b4, OL_r1b5, OL_r1b6, 
 					OL_r2b1, OL_r2b2, OL_r2b3, OL_r2b4, OL_r2b5, OL_r2b6, OL_run_stop,
 					OL_r3b1, OL_r3b2, OL_r3b3, OL_r3b4, OL_r3b5_knob, OL_r3b6, OL_r3b7,
