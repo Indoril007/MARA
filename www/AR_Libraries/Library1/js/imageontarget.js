@@ -102,24 +102,52 @@ var World = {
 			button_drawables = []; 
 		}	
 		
-		$("body").prepend("<div class=\"left\"><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>");
+		$("body").prepend("<div class=\"left\"><span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span></div>");
 		$("body").prepend("<div class=\"right\"><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>");
 		
 		$(".left").bind("click", function(event, ui) {
+			$(this).animate({
+				color: "green",
+			}, 10, 'linear', function(){
+				$(this).animate({
+					color: "#0182b9",
+				}, 250);
+			});
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
 			if (World.tracked_tutorialSteps[World.tutorial_stepIndex - 1]) {
 				World.tutorial_stepIndex -= 1;
+				if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex - 1])) {
+					$(this).css("color", "grey");
+				} 
 			}
+			
+			$(".right").css("color", "#0182b9");
+			
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
 			$('#loadingMessage div').empty();
 			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
 		})
 		
 		$(".right").bind("click", function(event, ui) {
+			$(this).animate({
+				color: "green",
+			}, 10, 'linear', function(){
+				console.log("turning blue");
+				$(this).animate({
+					color: "#0182b9",
+				}, 250);
+			});
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
 			if (World.tracked_tutorialSteps[World.tutorial_stepIndex + 1]) {
 				World.tutorial_stepIndex += 1;
+				if (!(World.tracked_tutorialSteps[World.tutorial_stepIndex + 1])) {
+					console.log("turning grey");
+					$(this).css("color", "grey");
+				} 
 			}
+			
+			$(".left").css("color", "#0182b9");
+			
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = true;
 			$('#loadingMessage div').empty();
 			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
