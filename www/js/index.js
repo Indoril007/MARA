@@ -151,6 +151,11 @@ var app = {
 			// Hiding libraries, Showing Tutorials
 			menu.activateMenu("#tutorials");
 			
+			$( "#backToLibraries" ).bind( "click", function(event, ui) {
+				menu.activateMenu("#libraries");
+				app.wikitudePlugin.close();
+			});
+			
 			// Binding click functions to menu items
 			$('#tutorials .menu-item').bind("click", function(event, ui) {
 				console.log("CLICK REGISTERED=====================================================");
@@ -165,14 +170,12 @@ var app = {
 			// Hiding the architect world
 			app.wikitudePlugin.hide();
 		} else if (match[2] === "menu") {
-			console.log("GOT HERE");
 			if (match[3] === "tutorials") {
-				console.log("AND HERE");
 				menu.activateMenu("#tutorials");
 				app.wikitudePlugin.hide();
 			} else if (match[3] === "devices") {
-				menu.activateMenu("#devices");
-				app.wikitudePlugin.hide();
+				menu.activateMenu("#libraries");
+				app.wikitudePlugin.close();
 			}
 		}
 		

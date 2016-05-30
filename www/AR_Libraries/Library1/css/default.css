@@ -10,7 +10,7 @@ html, body {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	background-color: transparent;
-	border: 1px solid green;
+	/* border: 1px solid green; */
 }
 
 #top {
@@ -28,16 +28,17 @@ html, body {
 
 #backButton {
 	font-size: 34px;
-	border: 1px solid yellow;
+	/* border: 1px solid yellow; */
 	float: left;
 	margin: 0;
+	margin-top:10px;
 	text-align: center;
 	width: 12%;
 }
 
 #loadingMessage {
 	font-size: 34px;
-	border: 1px solid yellow;
+	/* border: 1px solid yellow; */
 	margin: 0;
 	width: 100%;
 	color: #0182b9;
@@ -47,20 +48,21 @@ html, body {
 
 #help {
 	font-size: 34px;
-	border: 1px solid yellow;
+	/* border: 1px solid yellow; */
 	float: right;
 	text-align: center;
 	margin: 0;
+	margin-top:10px;
 	width: 12%;
 }
 
 .tuteButton {
 	position: relative;
-	top: 50%;
+	top: 30%;
 	height: 80px;
 	font-size: 70px;
 	text-shadow: 0 0 4px green;
-	transform: translateY(-50%);
+	/* transform: translateY(-70%); */
 	background-color: transparent;
 	opacity: 0.8;
 	padding: 0;
@@ -69,14 +71,14 @@ html, body {
 
 .left {
 	clear: left;
-	border: 1px solid yellow;
+	/* border: 1px solid yellow; */
 	float: left;
 	color: grey;
 }
 
 .right {
 	clear: right;
-	border: 1px solid yellow;
+	/* border: 1px solid yellow; */
 	float: right;
 	color: #0182b9;
 }

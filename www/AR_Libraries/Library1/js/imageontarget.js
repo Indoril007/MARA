@@ -9,13 +9,11 @@ var World = {
 	tutorial_stepIndex: 0,
 	
 	init: function initFn() {
-		
 		this.tracker = new AR.ClientTracker("assets/MARA_v5.wtc", {
 			onLoaded: this.worldLoaded
 		});
 		this.loadDevices();
 	},
-
 	loadDevices: function loadDevices() {
 		World.disableTutorials();
 		World.state = 1;
@@ -30,10 +28,7 @@ var World = {
 						var button = devices[key].buttons[j];
 						var imageDrawable = button.getARImageDrawable();
 						imageDrawable.onClick = function() {
-							var cssDivLeft = " style='display: table-cell;vertical-align: middle; text-align: right; width: 50%; padding-right: 15px;'";
-							var cssDivRight = " style='display: table-cell;vertical-align: middle; text-align: left;'";
-							var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
-							document.getElementById('loadingMessage').innerHTML = "<div" + cssFont + "> " + button.description + " </div>";
+							document.getElementById('loadingMessage').innerHTML = button.description;
 						}
 						button_drawables.push(imageDrawable);
 					}(key,j));
@@ -47,15 +42,6 @@ var World = {
 				}(key));
 				
 				button_drawables.push(tutorials);
-				/*
-					The last line combines everything by creating an AR.Trackable2DObject with the previously created tracker, the name of the image target and the drawable that should augment the recognized image.
-					Please note that in this case the target name is a wildcard. Wildcards can be used to respond to any target defined in the target collection. If you want to respond to a certain target only for a particular AR.Trackable2DObject simply provide the target name as specified in the target collection.
-				*/
-				
-				console.log("====================================");
-				console.log(devices[key].name);
-				console.log(button_drawables);
-				console.log(button_drawables[1]);
 				
 				this.tracked_devices[(this.tracked_devices).length] = new AR.Trackable2DObject(this.tracker, devices[key].name, {
 					drawables: {
@@ -66,13 +52,6 @@ var World = {
 				button_drawables = [];
 			}
 		}
-		
-
-		/*
-			The AR.Trackable2DObject for the second page uses the same tracker but with a different target name and the second overlay.
-		*/
-		
-
 	},
 
 	loadTutorial: function(device_key, tutorial_key) {
@@ -91,8 +70,12 @@ var World = {
 
 		// Show tute buttons
 		$(".tuteButton").show();
+		$(".left").css("color", "grey");
+		$(".right").css("color", "#0182b9");
 		
-		//Bind click funtion to left button
+		$(".right").unbind("click");
+		$(".left").unbind("click");
+		
 		$(".left").bind("click", function(event, ui) {
 			var activate_color = "green";
 			var passive_color = "#0182b9"
@@ -118,8 +101,8 @@ var World = {
 				}, 250)
 			});
 
-			$('#loadingMessage div').empty();
-			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
+			$('#loadingMessage').empty();
+			$('#loadingMessage').append(tutorialSteps[World.tutorial_stepIndex].description);
 		});
 		// World.bindTutorialButton("left", tutorialSteps);
 		
@@ -149,15 +132,14 @@ var World = {
 				}, 250)
 			});
 
-			$('#loadingMessage div').empty();
-			$('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
+			$('#loadingMessage').empty();
+			$('#loadingMessage').append(tutorialSteps[World.tutorial_stepIndex].description);
 		});
-		// World.bindTutorialButton("right", tutorialSteps);
 		
 		//Initialization for step 1
 		this.tracked_tutorialSteps[0].enabled = true;
-		$('#loadingMessage div').empty();
-		$('#loadingMessage div').append(tutorialSteps[0].description);
+		$('#loadingMessage').empty();
+		$('#loadingMessage').append(tutorialSteps[0].description);
 	},
 	
 	disableTrackedDevices: function() {
@@ -174,6 +156,9 @@ var World = {
 	},
 	
 	disableTutorials: function() {
+		if (World.tracked_tutorialSteps[World.tutorial_stepIndex]) {
+			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
+		}
 		World.tracked_tutorialSteps = [];
 		World.tutorial_stepIndex = 0;
 	},
@@ -284,6 +269,9 @@ var World = {
 		if (World.state === 2) {
 			World.state = 3;
 			document.location = 'architectsdk://menu-tutorials';
+		} else if (World.state === 1 ) {
+			World.state = 4;
+			document.location = 'architectsdk://menu-devices';
 		}
 	}
 };
