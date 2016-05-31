@@ -65,7 +65,7 @@ var menu = {
  
 var app = {
 
-    requiredFeatures : ["2d_tracking", "geo"],
+    requiredFeatures : ["2d_tracking"],
     arUrl: null,
     startupConfiguration:
     {
@@ -86,10 +86,13 @@ var app = {
     },
 
     onDeviceReady: function(){
-
+		
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+		
+		WikitudePlugin.onBackButton = this.onBackKeyDown;
+		
 		app.loadARchitectWorld(); // for skipping initial libraries menu
-		// (app.wikitudePlugin).onBackButton = this.onBackKeyDown;
+		
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
@@ -273,10 +276,9 @@ var app = {
 		app.wikitudePlugin.show();
 	},
 	
-	// onBackKeyDown: function() {
-		// console.log("GERONIMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		// app.wikitudePlugin.callJavaScript('World.onBackKeyDown()');
-	// }
+	onBackKeyDown: function() {
+		console.log("Test");
+		}
 };
 
 // menu.initialize(); // menu unactivated when not using intial libraries menu

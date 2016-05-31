@@ -156,12 +156,15 @@ var World = {
 	enableTrackedDevices: function() {
 		World.state = 1;
 		World.disableTutorials();
+		$("#backButton").hide();
+		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = true;
 		}
 	},
 	
 	disableTutorials: function() {
+		$(".tuteButton").hide();
 		if (World.tracked_tutorialSteps[World.tutorial_stepIndex]) {
 			(World.tracked_tutorialSteps[World.tutorial_stepIndex]).enabled = false;
 		}
