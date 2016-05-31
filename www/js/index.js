@@ -185,11 +185,77 @@ var app = {
 				app.wikitudePlugin.close();
 			}
 		} else if (match[2] === "help") {
-			$( "#close" ).bind( "click", function(event, ui) {
+
+			menu.activateMenu("#one");
+			setTimeout(function(){app.wikitudePlugin.hide();},300);
+
+			$( "#closeone" ).bind( "click", function(event, ui) {
+				console.log("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+				app.wikitudePlugin.show();
+				console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+			});
+			$( "#closetwo" ).bind( "click", function(event, ui) {
 				app.wikitudePlugin.show();
 			});
-			menu.activateMenu("#help");
-			setTimeout(function(){app.wikitudePlugin.hide();},300);
+			$( "#closethree" ).bind( "click", function(event, ui) {
+				app.wikitudePlugin.show();
+			});
+			$( "#closefour" ).bind( "click", function(event, ui) {
+				app.wikitudePlugin.show();
+			});
+
+			$(function() {      
+			    $("#one").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="left")
+			          		menu.activateMenu("#two");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+
+			$(function() {      
+			    $("#two").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="left")
+			          		menu.activateMenu("#three");
+			          	if (direction=="right")
+			          		menu.activateMenu("#one");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+
+			$(function() {      
+			    $("#three").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="left")
+			          		menu.activateMenu("#four");
+			          	if (direction=="right")
+			          		menu.activateMenu("#two");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+
+			$(function() {      
+			    $("#four").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="right")
+			          		menu.activateMenu("#three");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+			            		       
 		}
 	},
 	

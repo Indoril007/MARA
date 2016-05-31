@@ -47,32 +47,32 @@
 		</div>
 	</div>
 
-	<div id="help" class="menu" hidden>
-	<span id="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+		<div id="one" class="menu" hidden>
+			<span id="closeone"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
 
-		<div data-role="page" id="one">
-			<div data-role="header">
+			<div class="header">
 				<h1> What is MARA? </h1>
 			</div><!--/header-->
 
 			<div data-role="main" class="ui-content">
 			<p> MARA stands for Monash Augmented Reality Application. It was developed by a team in Monash University designed to help beginner users of the electrical engineering lab equipments.</p>
-
+			<br><br>
 			<p>The app uses Augmented Reality to make the user experience interesting. We believe AR technology can be used to significantly reduce the learning curve of the lab equipments and improve learning experience and quality for the first time users.</p>
-
+			<br><br>
 			<p>The app is able to recognize lab equipments and augment information, such as the the name of the equipment, the interface of the equipment with brief desciptions on what each button does. More importantly, the app includes tutorials for each of the lab equipment use.</p>
 			</div><!--/content-->
 		</div><!--/page-->	
 		<!--End of PageOne-->
-		
 
 		<!--Start of PageTwo-->
-		<div data-role="page" id="two">
-			<div data-role="header">
+		<div id="two" class="menu" hidden>
+			<span id="closetwo"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+
+			<div class="header">
 				<h1> How To Use? </h1>
 			</div><!--/header-->
 
-			<div data-role="content" data-theme>
+			<div data-role="content" class="ui-content">
 				<img src="img/hover.jpg" alt="Hover device over equipment" style="width:480px;height:270px;">
 		 		<p> Hover your device over the equipment. Move it around slightly if nothing happens. Click on buttons to see information and tutorial.</p>
 		 		<img src="img/tutorial.jpg" alt="Follow the tutorial" style="width:480px;height:270px;">
@@ -84,13 +84,15 @@
 
 
 		<!--Start of PageThree-->
-		<div data-role="page" id="three">
-			<div data-role="header">
+		<div id="three" class="menu" hidden>
+			<span id="closethree"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+
+			<div class="header">
 				<h1> Supported Equipment Models </h1>
 			</div><!--/header-->
 
-			<div data-role="content" data-theme>
-				<p> Function Generator </p>
+			<div data-role="content" class="ui-content">
+				<h2> Function Generator </h2>
 				<table style="width:100%">
 					<tr>
 						<td><img src="img/AFG2021.jpg" alt="Func Gen ENG1002" align="middle"></td>
@@ -102,7 +104,7 @@
 					</tr>
 				</table>
 
-				<p> Digital Storage Oscilloscope </p>
+				<h2> Digital Storage Oscilloscope </h2>
 				<table style="width:100%">
 					<tr>
 						<td><img src="img/tds2014b.jpg" alt="Func Gen ENG1002" align="middle"></td>
@@ -113,7 +115,7 @@
 						<td><h3>TBS 1052B-EDU</h3></td>
 					</tr>
 				</table>
-				<p> Power Supply </p>
+				<h2> Power Supply </h2>
 				<table style="width:100%">
 					<tr>
 						<td><img src="img/POWERSUP.jpg" alt="Func Gen ENG1002" align="middle"></td>
@@ -127,12 +129,14 @@
 		<!--End of PageThree-->
 
 		<!--Start of PageFour-->
-		<div data-role="page" id="four">
-			<div data-role="header">
+		<div id="four" class="menu" hidden>
+			<span id="closefour"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+
+			<div class="header">
 				<h1> About Us </h1>
 			</div><!--/header-->
 
-			<div data-role="content" data-theme>
+			<div data-role="content" class="ui-content">
 				<img src="img/logotest.png" alt="MARA logo" style="width:400px;height:340px;">
 				<p> Developed by Team MARA </p>
 				<p> Formed by James Borg, Fu Hsien Ng, Sook Yii Diong </p>
@@ -140,15 +144,14 @@
 			</div><!--/content-->
 		</div><!--/page-->
 		<!--End of PageFour-->
-	</div>
 
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-	<!-- <script type="text/javascript" src="js/jQuery.touchswipe.min.js"></script> -->
 	<script type="text/javascript" src="cordova.js"></script>
 	<script type="text/javascript" src="AR_Libraries/Library1/js/devices.js"></script>
+	<script type="text/javascript" src="js/jQuery.touchswipe.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
 	<script type="text/javascript">
 		$( "#library1" ).bind( "click", function(event, ui) {
