@@ -237,35 +237,15 @@ var World = {
 			
 		$("#backButton").bind("click", function(event, ui) {
 			World.onBackKeyDown();
+		});
+
+		$("#help").bind("click", function(event, ui) {
+			World.onHelpPressed();
 		})
-		// $("html").swipe( {
-			// //Generic swipe handler for all directions
-			// swipeRight:function(event, direction, distance, duration, fingerCount, fingerData) {
-				// document.location = 'architectsdk://menu-tutorials';
-			// },
-			
-			// // swipeLeft:function(event, direction, distance, duration, fingerCount, fingerData) {
-				// // app.wikitudePlugin.show();
-			// // }
-		// });
-			
-			// "<div id=\"left\"" + cssDivLeft + ">blah blah</div>" +
-			// "<div" + cssDivRight + "><img src='assets/monash.png'></img></div>";
 		
-			
-			// "<div" + cssDivLeft + "><span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span></div>" +
-			// "<div" + cssDivRight + "><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></div>";
-			
-			
-		// Remove Scan target message after 10 sec.
-		// setTimeout(function() {
-			// var e = document.getElementById('loadingMessage');
-			// e.parentElement.removeChild(e);
-		// }, 10000);
 	},
 	
 	onBackKeyDown: function() {
-		console.log("===========================================back button pressed")
 		if (World.state === 2) {
 			World.state = 3;
 			document.location = 'architectsdk://menu-tutorials';
@@ -273,6 +253,10 @@ var World = {
 			World.state = 4;
 			document.location = 'architectsdk://menu-devices';
 		}
+	},
+
+	onHelpPressed: function(){
+		document.location = 'architectsdk://help-info';
 	}
 };
 

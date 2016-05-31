@@ -34,6 +34,7 @@ var menu = {
 		this.activeMenu = menuID;
 		$('.menu').hide();
 		$(menuID).show();
+		console.log("I AM HERE+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 	},
 	
 	addMenuItem: function(menuID, id, content, customAttributes) {
@@ -177,9 +178,13 @@ var app = {
 				menu.activateMenu("#libraries");
 				app.wikitudePlugin.close();
 			}
+		} else if (match[2] === "help") {
+			$( "#close" ).bind( "click", function(event, ui) {
+				app.wikitudePlugin.show();
+			});
+			menu.activateMenu("#help");
+			setTimeout(function(){app.wikitudePlugin.hide();},300);
 		}
-		
-		
 	},
 	
 	loadARchitectWorld: function() {

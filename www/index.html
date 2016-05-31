@@ -7,6 +7,17 @@
 	<link href='https://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
 
 	<title></title>
+
+<style>
+	td {
+		text-align: center;
+	}
+	img{
+		max-width:100%; 
+		height:auto;
+	}
+</style>
+
 </head>
 <body>
 	<div id="libraries" class="menu" hidden>
@@ -15,7 +26,6 @@
 			<span class="right">Add Library</span>
 			<span class="glyphicon glyphicon-plus right" aria-hidden="true"></span>
 		</div>
-		
 		<div class="menu-items">
 			<div id="library1" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 1</span></div>
 			<div id="library2" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 2</span></div>
@@ -26,7 +36,6 @@
 	</div>
 	
 	<div id="tutorials" class="menu" hidden>
-	
 		<div class="header">
 			<span>Select Tutorial</span>
 			<span id="backToLibraries" class="right">Back to Libraries</span>
@@ -35,7 +44,101 @@
 		
 		<div class="menu-items">
 		</div>
+	</div>
+
+	<div id="help" class="menu" hidden>
+	<span id="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+
+		<div data-role="page" id="one">
+			<div data-role="header">
+				<h1> What is MARA? </h1>
+			</div><!--/header-->
+
+			<div data-role="main" class="ui-content">
+			<p> MARA stands for Monash Augmented Reality Application. It was developed by a team in Monash University designed to help beginner users of the electrical engineering lab equipments.</p>
+
+			<p>The app uses Augmented Reality to make the user experience interesting. We believe AR technology can be used to significantly reduce the learning curve of the lab equipments and improve learning experience and quality for the first time users.</p>
+
+			<p>The app is able to recognize lab equipments and augment information, such as the the name of the equipment, the interface of the equipment with brief desciptions on what each button does. More importantly, the app includes tutorials for each of the lab equipment use.</p>
+			</div><!--/content-->
+		</div><!--/page-->	
+		<!--End of PageOne-->
 		
+
+		<!--Start of PageTwo-->
+		<div data-role="page" id="two">
+			<div data-role="header">
+				<h1> How To Use? </h1>
+			</div><!--/header-->
+
+			<div data-role="content" data-theme>
+				<img src="img/hover.jpg" alt="Hover device over equipment" style="width:480px;height:270px;">
+		 		<p> Hover your device over the equipment. Move it around slightly if nothing happens. Click on buttons to see information and tutorial.</p>
+		 		<img src="img/tutorial.jpg" alt="Follow the tutorial" style="width:480px;height:270px;">
+				<p> Go through the tutorial. Click on next button when you are ready.</p>
+				<p> Enjoy your learning experience! </p>
+			</div><!--/content-->
+		</div><!--/page-->
+		<!--End of PageTwo-->
+
+
+		<!--Start of PageThree-->
+		<div data-role="page" id="three">
+			<div data-role="header">
+				<h1> Supported Equipment Models </h1>
+			</div><!--/header-->
+
+			<div data-role="content" data-theme>
+				<p> Function Generator </p>
+				<table style="width:100%">
+					<tr>
+						<td><img src="img/AFG2021.jpg" alt="Func Gen ENG1002" align="middle"></td>
+						<td><img src="img/AFG3021B.jpg" alt="Func Gen ECSE" align="middle"></td>
+					</tr>
+					<tr>
+						<td><h3>AFG 2021</h3></td>
+						<td><h3>AFG 3021B</h3></td>
+					</tr>
+				</table>
+
+				<p> Digital Storage Oscilloscope </p>
+				<table style="width:100%">
+					<tr>
+						<td><img src="img/tds2014b.jpg" alt="Func Gen ENG1002" align="middle"></td>
+						<td><img src="img/TBS1052B-EDU.jpg" alt="Oscilloscope ECSE" align="middle"></td>
+					</tr>
+					<tr>
+						<td><h3>TDS 2014B</h3></td>
+						<td><h3>TBS 1052B-EDU</h3></td>
+					</tr>
+				</table>
+				<p> Power Supply </p>
+				<table style="width:100%">
+					<tr>
+						<td><img src="img/POWERSUP.jpg" alt="Func Gen ENG1002" align="middle"></td>
+					</tr>
+					<tr>
+						<td><h3>Manson HCS 3402</h3></td>
+					</tr>
+				</table>
+			</div><!--/content-->
+		</div><!--/page-->
+		<!--End of PageThree-->
+
+		<!--Start of PageFour-->
+		<div data-role="page" id="four">
+			<div data-role="header">
+				<h1> About Us </h1>
+			</div><!--/header-->
+
+			<div data-role="content" data-theme>
+				<img src="img/logotest.png" alt="MARA logo" style="width:400px;height:340px;">
+				<p> Developed by Team MARA </p>
+				<p> Formed by James Borg, Fu Hsien Ng, Sook Yii Diong </p>
+				<p> Contact Information: <br> jdbor1@student.monash.edu <br> fhng1@student.monash.edu <br> sydio2@student.monash.edu </p>
+			</div><!--/content-->
+		</div><!--/page-->
+		<!--End of PageFour-->
 	</div>
 
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
