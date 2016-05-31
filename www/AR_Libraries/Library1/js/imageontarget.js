@@ -14,9 +14,12 @@ var World = {
 		});
 		this.loadDevices();
 	},
+	
 	loadDevices: function loadDevices() {
 		World.disableTutorials();
 		World.state = 1;
+		
+		$("#backButton").hide();
 		
 		var button_drawables = [];
 		
@@ -59,6 +62,8 @@ var World = {
 		World.disableTrackedDevices();
 		World.disableTutorials();
 		World.state = 2;
+		
+		$("#backButton").show();
 		
 		// Grab tutorial
 		var device = devices[device_key];
@@ -150,6 +155,7 @@ var World = {
 	
 	enableTrackedDevices: function() {
 		World.state = 1;
+		World.disableTutorials();
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = true;
 		}
@@ -232,8 +238,7 @@ var World = {
 		// var cssDivLeft = "style='float: left; height: 100%; width: 100px;'";
 		// var cssDivRight = "style='float: right; height: 100%;  width: 100px;'";
 		// var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
-		document.getElementById('loadingMessage').innerHTML =
-			"<span id=\"loadingMessage\">Scan for the function generator</div>";
+		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
 			
 		$("#backButton").bind("click", function(event, ui) {
 			World.onBackKeyDown();

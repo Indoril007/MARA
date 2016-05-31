@@ -35,7 +35,7 @@ p {
 	background: -moz-linear-gradient(#FDFDFD, #FAFAFA, #FDFDFD); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(#FDFDFD, #FAFAFA, #FDFDFD); /* Standard syntax */
 	border-bottom: solid 1px #F3F3F3;
-	height: 50px;
+	min-height: 50px;
 	font-size: 23px;
 	color: #444;
 	line-height: 50px;
@@ -59,9 +59,16 @@ p {
 }
 
 .menu-item .glyphicon {
-	font-size: 14px;
+	font-size: 16px;
+	vertical-align: top;
+	margin-top: 16px;
+	margin-right: -50px;
 	padding-left: 8px;
 	padding-right: 15px;
+}
+.menu-text {
+	display: inline-block;
+	margin-left: 65px;
 }
 
 #close {

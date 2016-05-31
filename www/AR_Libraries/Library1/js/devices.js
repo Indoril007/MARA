@@ -69,6 +69,7 @@ Device.prototype.addTutorial = function(tutorial) {
 	var imgProbe = "assets/probe.jpg";
 	var imgArrow = "assets/arrow.png";
 
+
 //=======================================================Function Generator ECSE Lab===========================================================================================
 
 var ECSE_func_gen = new Device("function generator half");
@@ -123,18 +124,6 @@ ECSE_func_gen.addButtons(	[ECSE_func_gen_power, ECSE_func_gen_c1b1, ECSE_func_ge
 							 ECSE_func_gen_r5b1, ECSE_func_gen_r5b2, ECSE_func_gen_r5b3,
 							 ECSE_func_gen_r6b1, ECSE_func_gen_r6b2, ECSE_func_gen_r6b3,ECSE_func_gen_round,ECSE_func_gen_name], ECSE_func_gen_tutorials);
 
-							 
-/*var ECSE_func_gen_tutorial_1 = new Tutorial('Tutorial1'); //Select sine waveform and adjust frequency
-ECSE_func_gen_tutorial_1.addStep(new Step(0, [ECSE_func_gen_c1b4], 'description test 1'));
-ECSE_func_gen_tutorial_1.addStep(new Step(1, [ECSE_func_gen_c2b3], 'description test 2'));	
-ECSE_func_gen_tutorial_1.addStep(new Step(2, [ECSE_func_gen_c2b6], 'description test 3'));	
-ECSE_func_gen_tutorial_1.addStep(new Step(3, [ECSE_func_gen_c1b2], 'description test 4'));
-
-var ECSE_func_gen_tutorial_2 = new Tutorial('Tutorial2');
-ECSE_func_gen_tutorial_2.addStep(new Step(0, [ECSE_func_gen_c2b5], 'description test 1'));
-ECSE_func_gen_tutorial_2.addStep(new Step(1, [ECSE_func_gen_c1b4, ECSE_func_gen_c2b5], 'description test 2'));	
-ECSE_func_gen_tutorial_2.addStep(new Step(2, [ECSE_func_gen_c1b2], 'description test 3'));	
-ECSE_func_gen_tutorial_2.addStep(new Step(3, [ECSE_func_gen_c1b1], 'description test 4'));*/
 
 var ECSE_func_gen_tutorial_1 = new Tutorial('Basic Sine Wave'); //Select sine waveform and adjust frequency
 ECSE_func_gen_tutorial_1.addStep(new Step(0, [ECSE_func_gen_power], 'Turn on the instrument'));
@@ -176,7 +165,7 @@ ECSE_func_gen.addTutorial(ECSE_func_gen_tutorial_4);
 
 //====================================================End of Function Generator ECSE Lab=======================================================================================
 
-//=======================================================Oscilloscope ENG1002==================================================================================================
+//=======================================================Oscilloscope ECSE Lab==================================================================================================
 var ECSE_osci = new Device("Lab_Oscilloscope");
 
 var ECSE_osci_tutorials = new Button("Tutorials"	, imgTute	, 0.25, -0.45, -0.65, "Click this button for tutorials");
@@ -189,7 +178,7 @@ var ECSE_osci_c1b4 = new Button("Menu Button 4", imgRect, 0.06, -0.6, -0.044, "U
 var ECSE_osci_c1b5 = new Button("Menu Button 5", imgRect, 0.06, -0.6, -0.1505, "Use this button to navigate menu options");
 var ECSE_osci_c1b6_round = new Button("Check Probe", imgRound, 0.08, -0.6, -0.23, "Use this button to check probe functionality");
 
-var ECSE_osci_mult_purpose_knob = new Button("Meunu Probe", imgRound, 0.2, -0.377, 0.383, "Use this button to adjust menu values");
+var ECSE_osci_mult_purpose_knob = new Button("Menu Probe", imgRound, 0.2, -0.377, 0.383, "Use this button to adjust menu values");
 var ECSE_osci_r1b1 = new Button("Autorange", imgRect, 0.06, -0.2214, 0.433, "");
 var ECSE_osci_r1b2 = new Button("Save/Recall", imgRect, 0.06, -0.0969, 0.433, "User this button to save and recall waveforms");	
 var ECSE_osci_r1b3 = new Button("Measure", imgRect, 0.06, 0.0276, 0.433, "Use this button to toggle Measure menu");	
@@ -233,15 +222,58 @@ var ECSE_osci_r6b3 = new Button("Channel 3 scale", imgRound, 0.2, 0.069, -0.1923
 var ECSE_osci_r6b4 = new Button("Channel 4 scale", imgRound, 0.2, 0.3024, -0.1973, "Use this knob to adjust Channel 4 vertical scale");	
 var ECSE_osci_r6b5 = new Button("Horizontal scale", imgRound, 0.2, 0.5385, -0.2117, "Use this knob to adjust Horizontal scale");
 
+var ECSE_osci_result = new Button("Results of cursor", imgRect, 0.1, -0.7673, 0.07, "Use this knob to adjust Horizontal scale");
+
 ECSE_osci.addButtons([ ECSE_osci_name, ECSE_osci_c1b1, ECSE_osci_c1b2, ECSE_osci_c1b3, ECSE_osci_c1b4, ECSE_osci_c1b5, ECSE_osci_c1b6_round,
 							ECSE_osci_mult_purpose_knob, ECSE_osci_r1b1, ECSE_osci_r1b2, ECSE_osci_r1b3, ECSE_osci_r1b4, ECSE_osci_r1b5, ECSE_osci_r1b6, 
 							ECSE_osci_r2b1, ECSE_osci_r2b2, ECSE_osci_r2b3, ECSE_osci_r2b4, ECSE_osci_r2b5, ECSE_osci_r2b6, ECSE_osci_run_stop,
 							ECSE_osci_r3b1, ECSE_osci_r3b2, ECSE_osci_r3b3, ECSE_osci_r3b4, ECSE_osci_r3b5_knob, ECSE_osci_r3b6, ECSE_osci_r3b7,
 							ECSE_osci_r4b1, ECSE_osci_r4b2, ECSE_osci_r4b3, ECSE_osci_r4b4, ECSE_osci_r4b5,
 							ECSE_osci_r5b1, ECSE_osci_r5b2, ECSE_osci_r5b3, ECSE_osci_r5b4, ECSE_osci_r5b5, ECSE_osci_r5b6,
-							ECSE_osci_r6b1, ECSE_osci_r6b2, ECSE_osci_r6b3, ECSE_osci_r6b4, ECSE_osci_r6b5	], ECSE_osci_tutorials)
+							ECSE_osci_r6b1, ECSE_osci_r6b2, ECSE_osci_r6b3, ECSE_osci_r6b4, ECSE_osci_r6b5], ECSE_osci_tutorials)
 
-//====================================================End of Oscilloscope ENG1002=============================================================================================
+var ECSE_osci_tutorial_1 = new Tutorial('Set Probe Attenuation');
+ECSE_osci_tutorial_1.addStep(new Step(0, [ECSE_osci_r5b1,ECSE_osci_r5b3,ECSE_osci_r5b4,ECSE_osci_r6b4], 'Push your Channel Menu button'));
+ECSE_osci_tutorial_1.addStep(new Step(1, [ECSE_osci_c1b4], 'Push the Probe button'));	
+ECSE_osci_tutorial_1.addStep(new Step(2, [ECSE_osci_c1b1], 'Push the Voltage button'));	
+ECSE_osci_tutorial_1.addStep(new Step(3, [ECSE_osci_mult_purpose_knob], 'Use the knob to navigate between choices'));
+ECSE_osci_tutorial_1.addStep(new Step(4, [], 'Make sure that the attenuation on your probe is the same'));
+ECSE_osci_tutorial_1.addStep(new Step(5, [ECSE_osci_r1b6], 'Push the Autoset button to set a suitable scale automatically'));
+
+var ECSE_osci_tutorial_2 = new Tutorial('Measure waveforms');
+ECSE_osci_tutorial_2.addStep(new Step(0, [ECSE_osci_r1b3], 'Push Measure button'));
+ECSE_osci_tutorial_2.addStep(new Step(1, [ECSE_osci_c1b1,ECSE_osci_c1b2,ECSE_osci_c1b3,ECSE_osci_c1b4,ECSE_osci_c1b5], 'Select a slot for the measurement'));	
+ECSE_osci_tutorial_2.addStep(new Step(2, [ECSE_osci_c1b1], 'Push the button to find your channel'));	
+ECSE_osci_tutorial_2.addStep(new Step(3, [ECSE_osci_mult_purpose_knob,ECSE_osci_c1b2], 'Use the knob or the button to choose measurement type'));
+ECSE_osci_tutorial_2.addStep(new Step(4, [ECSE_osci_c1b5], 'Push the back button when done'));
+
+var ECSE_osci_tutorial_3 = new Tutorial('Measure with cursor');
+ECSE_osci_tutorial_3.addStep(new Step(0, [ECSE_osci_r6b1,ECSE_osci_r6b5,ECSE_osci_r4b1,ECSE_osci_r4b5], 'Use these knobs (of your channel) to focus on targeted area'));
+ECSE_osci_tutorial_3.addStep(new Step(1, [ECSE_osci_r2b3], 'Push Cursor button'));	
+ECSE_osci_tutorial_3.addStep(new Step(2, [ECSE_osci_c1b1], 'Push the button to select voltage or time measurement'));	
+ECSE_osci_tutorial_3.addStep(new Step(3, [ECSE_osci_c1b2], 'Push the button to select your channel'));
+ECSE_osci_tutorial_3.addStep(new Step(4, [ECSE_osci_c1b4,ECSE_osci_c1b5], 'Select which cursor to control'));
+ECSE_osci_tutorial_3.addStep(new Step(5, [ECSE_osci_mult_purpose_knob], 'Use the knob to adjust cursor position'));
+ECSE_osci_tutorial_3.addStep(new Step(6, [ECSE_osci_result], 'Read your results here'));
+
+var ECSE_osci_tutorial_4 = new Tutorial('Using Reference Waveform');
+ECSE_osci_tutorial_4.addStep(new Step(0, [ECSE_osci_r1b2], 'Push the Save/Recall button'));
+ECSE_osci_tutorial_4.addStep(new Step(1, [ECSE_osci_c1b1], 'Push the button to select "Save Waveform"'));	
+ECSE_osci_tutorial_4.addStep(new Step(2, [ECSE_osci_c1b2], 'Push the button to select "Ref"'));	
+ECSE_osci_tutorial_4.addStep(new Step(3, [ECSE_osci_c1b3], 'Push the button to select your channel'));
+ECSE_osci_tutorial_4.addStep(new Step(4, [ECSE_osci_c1b4], 'Push the button to select where to save'));
+ECSE_osci_tutorial_4.addStep(new Step(5, [ECSE_osci_c1b5], 'Push save'));
+ECSE_osci_tutorial_4.addStep(new Step(6, [ECSE_osci_r2b1], 'To recall reference, push this button'));
+ECSE_osci_tutorial_4.addStep(new Step(7, [ECSE_osci_c1b1,ECSE_osci_c1b2,ECSE_osci_c1b3,ECSE_osci_c1b4], 'Turn on the reference you saved'));
+
+
+
+ECSE_osci.addTutorial(ECSE_osci_tutorial_1);
+ECSE_osci.addTutorial(ECSE_osci_tutorial_2);
+ECSE_osci.addTutorial(ECSE_osci_tutorial_3);
+ECSE_osci.addTutorial(ECSE_osci_tutorial_4);
+
+//====================================================End of Oscilloscope ECSE Lab=============================================================================================
 
 //=======================================================Oscilloscope ENG1002==================================================================================================
 
