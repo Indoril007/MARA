@@ -48,7 +48,7 @@ var menu = {
 			}
 		}
 		
-		var menuHtml = "<div id=\"" + id + "\" class=\"menu-item\" " + customAttributesHtml +">" + chevronHtml + "<span>" + content + "</span></div>";
+		var menuHtml = "<div id=\"" + id + "\" class=\"menu-item\" " + customAttributesHtml +">" + chevronHtml + "<span class=\"menu-text\">" + content + "</span></div>";
 		console.log(menuHtml);
 		$(menuID + ' .menu-items').append(menuHtml);
 	},
@@ -87,6 +87,7 @@ var app = {
     onDeviceReady: function(){
 
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+		app.loadARchitectWorld(); // for skipping initial libraries menu
 		// (app.wikitudePlugin).onBackButton = this.onBackKeyDown;
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
@@ -151,9 +152,14 @@ var app = {
 			// Hiding libraries, Showing Tutorials
 			menu.activateMenu("#tutorials");
 			
-			$( "#backToLibraries" ).bind( "click", function(event, ui) {
-				menu.activateMenu("#libraries");
-				app.wikitudePlugin.close();
+			// $( "#backToLibraries" ).bind( "click", function(event, ui) {
+				// menu.activateMenu("#libraries");
+				// app.wikitudePlugin.close();
+			// });
+			
+			$( "#backToDevices" ).bind( "click", function(event, ui) {
+				app.wikitudePlugin.callJavaScript('World.enableTrackedDevices()');
+				app.wikitudePlugin.show();
 			});
 			
 			// Binding click functions to menu items
@@ -202,5 +208,5 @@ var app = {
 	// }
 };
 
-menu.initialize();
+// menu.initialize(); // menu unactivated when not using intial libraries menu
 app.initialize();
