@@ -73,7 +73,6 @@ var app = {
 
     // Application Constructor
     initialize: function() {
-
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -88,6 +87,7 @@ var app = {
     onDeviceReady: function(){
 
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+		// (app.wikitudePlugin).onBackButton = this.onBackKeyDown;
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
@@ -151,18 +151,34 @@ var app = {
 			// Hiding libraries, Showing Tutorials
 			menu.activateMenu("#tutorials");
 			
+			$( "#backToLibraries" ).bind( "click", function(event, ui) {
+				menu.activateMenu("#libraries");
+				app.wikitudePlugin.close();
+			});
+			
 			// Binding click functions to menu items
 			$('#tutorials .menu-item').bind("click", function(event, ui) {
 				console.log("CLICK REGISTERED=====================================================");
+				
 				var device_key = $(this).attr('data-device');
 				var tutorial_key = $(this).attr('data-tutorial');
-				
+				console.log(device_key)
+				console.log(tutorial_key)
 				app.loadTutorial(device_key, tutorial_key);
 			});
 			
 			// Hiding the architect world
 			app.wikitudePlugin.hide();
+		} else if (match[2] === "menu") {
+			if (match[3] === "tutorials") {
+				menu.activateMenu("#tutorials");
+				app.wikitudePlugin.hide();
+			} else if (match[3] === "devices") {
+				menu.activateMenu("#libraries");
+				app.wikitudePlugin.close();
+			}
 		}
+		
 		
 	},
 	
@@ -179,6 +195,11 @@ var app = {
 		app.wikitudePlugin.callJavaScript('World.loadTutorial("' + device_key + '","' + tutorial_key + '")');
 		app.wikitudePlugin.show();
 	},
+	
+	// onBackKeyDown: function() {
+		// console.log("GERONIMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		// app.wikitudePlugin.callJavaScript('World.onBackKeyDown()');
+	// }
 };
 
 menu.initialize();
