@@ -34,7 +34,6 @@ var menu = {
 		this.activeMenu = menuID;
 		$('.menu').hide();
 		$(menuID).show();
-		console.log("I AM HERE+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 	},
 	
 	addMenuItem: function(menuID, id, content, customAttributes) {
@@ -192,18 +191,7 @@ var app = {
 			menu.activateMenu("#one");
 			setTimeout(function(){app.wikitudePlugin.hide();},300);
 
-			$( "#closeone" ).bind( "click", function(event, ui) {
-				console.log("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-				app.wikitudePlugin.show();
-				console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-			});
-			$( "#closetwo" ).bind( "click", function(event, ui) {
-				app.wikitudePlugin.show();
-			});
-			$( "#closethree" ).bind( "click", function(event, ui) {
-				app.wikitudePlugin.show();
-			});
-			$( "#closefour" ).bind( "click", function(event, ui) {
+			$( ".close" ).bind( "click", function(event, ui) {
 				app.wikitudePlugin.show();
 			});
 
@@ -215,7 +203,7 @@ var app = {
 			          		menu.activateMenu("#two");
 			        },
 			        allowPageScroll:"auto",
-			        threshold:0
+			        threshold: 80,
 			    });
 			});
 
@@ -229,7 +217,7 @@ var app = {
 			          		menu.activateMenu("#one");
 			        },
 			        allowPageScroll:"auto",
-			        threshold:0
+			        threshold: 80,
 			    });
 			});
 
@@ -243,7 +231,7 @@ var app = {
 			          		menu.activateMenu("#two");
 			        },
 			        allowPageScroll:"auto",
-			        threshold:0
+			        threshold: 80,
 			    });
 			});
 
@@ -255,7 +243,7 @@ var app = {
 			          		menu.activateMenu("#three");
 			        },
 			        allowPageScroll:"auto",
-			        threshold:0
+			        threshold: 80,
 			    });
 			});
 			            		       
