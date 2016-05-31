@@ -65,7 +65,7 @@ var menu = {
  
 var app = {
 
-    requiredFeatures : ["2d_tracking", "geo"],
+    requiredFeatures : ["2d_tracking"],
     arUrl: null,
     startupConfiguration:
     {
@@ -86,10 +86,13 @@ var app = {
     },
 
     onDeviceReady: function(){
-
+		
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+		
+		WikitudePlugin.onBackButton = this.onBackKeyDown;
+		
 		app.loadARchitectWorld(); // for skipping initial libraries menu
-		// (app.wikitudePlugin).onBackButton = this.onBackKeyDown;
+		
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
@@ -185,11 +188,77 @@ var app = {
 				app.wikitudePlugin.close();
 			}
 		} else if (match[2] === "help") {
-			$( "#close" ).bind( "click", function(event, ui) {
+
+			menu.activateMenu("#one");
+			setTimeout(function(){app.wikitudePlugin.hide();},300);
+
+			$( "#closeone" ).bind( "click", function(event, ui) {
+				console.log("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+				app.wikitudePlugin.show();
+				console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+			});
+			$( "#closetwo" ).bind( "click", function(event, ui) {
 				app.wikitudePlugin.show();
 			});
-			menu.activateMenu("#help");
-			setTimeout(function(){app.wikitudePlugin.hide();},300);
+			$( "#closethree" ).bind( "click", function(event, ui) {
+				app.wikitudePlugin.show();
+			});
+			$( "#closefour" ).bind( "click", function(event, ui) {
+				app.wikitudePlugin.show();
+			});
+
+			$(function() {      
+			    $("#one").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="left")
+			          		menu.activateMenu("#two");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+
+			$(function() {      
+			    $("#two").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="left")
+			          		menu.activateMenu("#three");
+			          	if (direction=="right")
+			          		menu.activateMenu("#one");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+
+			$(function() {      
+			    $("#three").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="left")
+			          		menu.activateMenu("#four");
+			          	if (direction=="right")
+			          		menu.activateMenu("#two");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+
+			$(function() {      
+			    $("#four").swipe( {
+			        swipeStatus:function(event, phase, direction, distance, duration)
+			        {
+			          	if (direction=="right")
+			          		menu.activateMenu("#three");
+			        },
+			        allowPageScroll:"auto",
+			        threshold:0
+			    });
+			});
+			            		       
 		}
 	},
 	
@@ -207,10 +276,9 @@ var app = {
 		app.wikitudePlugin.show();
 	},
 	
-	// onBackKeyDown: function() {
-		// console.log("GERONIMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		// app.wikitudePlugin.callJavaScript('World.onBackKeyDown()');
-	// }
+	onBackKeyDown: function() {
+		console.log("Test");
+		}
 };
 
 // menu.initialize(); // menu unactivated when not using intial libraries menu
