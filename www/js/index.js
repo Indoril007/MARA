@@ -203,7 +203,7 @@ var app = {
 			          		menu.activateMenu("#two");
 			        },
 			        allowPageScroll:"auto",
-			        threshold: 80,
+			        threshold: 200,
 			    });
 			});
 
@@ -217,7 +217,7 @@ var app = {
 			          		menu.activateMenu("#one");
 			        },
 			        allowPageScroll:"auto",
-			        threshold: 80,
+			        threshold: 200,
 			    });
 			});
 
@@ -231,7 +231,7 @@ var app = {
 			          		menu.activateMenu("#two");
 			        },
 			        allowPageScroll:"auto",
-			        threshold: 80,
+			        threshold: 200,
 			    });
 			});
 
@@ -243,7 +243,7 @@ var app = {
 			          		menu.activateMenu("#three");
 			        },
 			        allowPageScroll:"auto",
-			        threshold: 80,
+			        threshold: 200,
 			    });
 			});
 			            		       
