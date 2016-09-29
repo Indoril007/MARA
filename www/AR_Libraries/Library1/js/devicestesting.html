@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title></title>
+
+</head>
+<body>
+	
+
+	<script type="text/javascript" src="devices.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script type="text/javascript">
+		var devices;
+	
+		$.getJSON("http://localhost:3000/file/devices.json")
+		 .done(function(data) {
+			console.log("success");
+			devices = data;
+		 })
+		 .fail(function( jqxhr, textStatus, error ) {
+			var err = textStatus + ", " + error;
+			console.log( "Request Failed: " + err );
+		});
+	</script>
+	
+</body>
+</html>

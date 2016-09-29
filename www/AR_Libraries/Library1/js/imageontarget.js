@@ -1,43 +1,76 @@
 // var GLOBAL_DEBUG_FLAG = true;
 
 var World = {
+	
 	tracked: null,
-	loaded: false,
-	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu
+	devices: null,
+	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu, 5 = help
 	tracked_devices: [],
 	tracked_tutorialSteps: [],
 	tutorial_stepIndex: 0,
 	
-	init: function initFn() {
-		this.tracker = new AR.ClientTracker("assets/MARA_v5.wtc", {
-			onLoaded: this.worldLoaded
-		});
-		this.loadDevices();
+	
+	init: function (devicesJSONurl) {
+		this.initTracker("assets/MARA_v5.wtc");
+		this.initDevices(devicesJSONurl);
 	},
 	
-	loadDevices: function loadDevices() {
+	initTracker: function(trackerUrl) {
+		this.tracker = new AR.ClientTracker(trackerUrl, {
+			onLoaded: this.worldLoaded
+		});
+	},
+	
+	worldLoaded: function worldLoadedFn() {
+		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
+			
+		$("#backButton").bind("click", function(event, ui) {
+			World.onBackKeyDown();
+		});
+
+		$("#help").bind("click", function(event, ui) {
+			World.onHelpPressed();
+		})
+		
+	},
+	
+	initDevices: function(devicesJSONurl) {	
+		$.getJSON(devicesJSONurl)
+		 .done(function(data) {
+			console.log("ARWORLD: get request for devices succeeded");
+			World.devices = Device.parseJSONobjects(data);
+			World.initDrawables();
+		 })
+		 .fail(function( jqxhr, textStatus, error ) {
+			var err = textStatus + ", " + error;
+			console.log( "Request Failed: " + err );
+		});
+	},
+	
+	initDrawables: function () {
+		
 		World.disableTutorials();
 		World.state = 1;
-		
 		$("#backButton").hide();
 		
 		var button_drawables = [];
 		
-		// for (i = 0; i < devices.length; i++) {
-		for (var key in devices) {
-			if (devices.hasOwnProperty(key)){
-				for (j = 0; j < devices[key].buttons.length; j++) {
-					(function(key,j) {
-						var button = devices[key].buttons[j];
+		for (var key in World.devices) {
+			if (World.devices.hasOwnProperty(key)){
+				var device = (World.devices)[key];
+				
+				for (var j = 0; j < device.buttons.length; j++) {
+					(function(device,j) {
+						var button = device.buttons[j];
 						var imageDrawable = button.getARImageDrawable();
 						imageDrawable.onClick = function() {
 							document.getElementById('loadingMessage').innerHTML = button.description;
 						}
 						button_drawables.push(imageDrawable);
-					}(key,j));
+					}(device,j));
 				}
 				
-				var tutorials = (devices[key].tutorialButton).getARImageDrawable();
+				var tutorials = device.tutorialButton.getARImageDrawable();
 				(function(key) {
 					tutorials.onClick = function() {
 						document.location = 'architectsdk://tutorials-' + key;
@@ -46,7 +79,7 @@ var World = {
 				
 				button_drawables.push(tutorials);
 				
-				this.tracked_devices[(this.tracked_devices).length] = new AR.Trackable2DObject(this.tracker, devices[key].name, {
+				this.tracked_devices[(this.tracked_devices).length] = new AR.Trackable2DObject(this.tracker, (World.devices)[key].name, {
 					drawables: {
 						cam: button_drawables,
 					}
@@ -66,7 +99,7 @@ var World = {
 		$("#backButton").show();
 		
 		// Grab tutorial
-		var device = devices[device_key];
+		var device = (World.devices)[device_key];
 		var tutorial = device.tutorials[tutorial_key];
 		var tutorialSteps = tutorial.steps;
 		
@@ -237,22 +270,6 @@ var World = {
 		// });
 	// },
 	
-	worldLoaded: function worldLoadedFn() {
-		// var cssDivLeft = "style='float: left; height: 100%; width: 100px;'";
-		// var cssDivRight = "style='float: right; height: 100%;  width: 100px;'";
-		// var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
-		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
-			
-		$("#backButton").bind("click", function(event, ui) {
-			World.onBackKeyDown();
-		});
-
-		$("#help").bind("click", function(event, ui) {
-			World.onHelpPressed();
-		})
-		
-	},
-	
 	onBackKeyDown: function() {
 		if (World.state === 2) {
 			World.state = 3;
@@ -264,10 +281,9 @@ var World = {
 	},
 
 	onHelpPressed: function(){
+		// World.state = 5
 		document.location = 'architectsdk://help-info';
 	}
 };
-
-World.init();
 
 
