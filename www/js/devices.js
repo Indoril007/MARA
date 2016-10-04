@@ -15,6 +15,7 @@ Button.prototype.getARImageDrawable = function() {
 }
 
 Button.parseJSONobject = function(object) {
+	console.log(object);
 	var button = new Button(object.name, object.imgPath, object.scale, object.offsetX, object.offsetY, object.description);
 	return button;
 }
@@ -137,14 +138,20 @@ Target.parseJSONobject = function(object) {
 	var target = new Target(object.name, targetCollectionId, null, null, null);
 	
 	for(var i = 0; i < object.buttons.length; i++) {
+		console.log("===========getting Button number:" + i);
 		target.addButtons([Button.parseJSONobject(object.buttons[i])]);
 	}
 	
-	target.addTutorialButton(Button.parseJSONobject(object.tutorialButton));
+	if (object.tutorialButton) {
+		console.log("===========getting tutorial Button+++++");
+		target.addTutorialButton(Button.parseJSONobject(object.tutorialButton));
+	}
 	
-	for (var key in object.tutorials) {
-		if (object.tutorials.hasOwnProperty(key)) {
-			target.addTutorial(Tutorial.parseJSONobject(object.tutorials[key]));
+	if (object.tutorials) {
+		for (var key in object.tutorials) {
+			if (object.tutorials.hasOwnProperty(key)) {
+				target.addTutorial(Tutorial.parseJSONobject(object.tutorials[key]));
+			}
 		}
 	}
 	

@@ -17,13 +17,18 @@ var World = {
 		this.initDevices(devicesJSONurl);
 	},
 	
-	initTracker: function(targetCollection) {
+	initTracker: function(targetCollectionID) {
 		// this.tracker = new AR.ClientTracker(targetCollection, {
 			// onLoaded: this.worldLoaded
 		// });
-		
-		this.tracker = new AR.CloudTracker("05ff8db03f53a77e71c54e5654eb478e", targetCollection, {
-			onLoaded: this.worldLoaded
+		console.log("targetCollectionID:" + targetCollectionID)
+		AR.context.setCloudRecognitionServerRegion(AR.CONST.CLOUD_RECOGNITION_SERVER_REGION.CHINA) 
+		this.tracker = new AR.CloudTracker("05ff8db03f53a77e71c54e5654eb478e", targetCollectionID, {
+			onLoaded: this.worldLoaded,
+			onError: function(error) {
+				console.log("================error occured===========");
+				console.log(error);
+			}
 		});
 	},
 	
@@ -35,7 +40,8 @@ var World = {
 		});
 
 		$("#help").bind("click", function(event, ui) {
-			World.onHelpPressed();
+			// World.onHelpPressed();
+			World.onTouch();
 		})
 		
 	},
@@ -47,9 +53,12 @@ var World = {
 			// World.devices = Device.parseJSONobjects(data);
 			// World.initDrawables();
 			
-			World.devices = [ Device.parseJSONobject(data) ];
-			World.targetCollection = (World.devices)[0].targetCollectionID;
-			World.initTracker(World.targetCollection);
+			World.devices = { myDevice: Target.parseJSONobject(data) };
+			World.targetCollectionID = World.devices.myDevice.targetCollectionID;
+			// console.log(World.devices);
+			// console.log(World.devices[0].name);
+			// console.log(World.devices[0].targetCollectionID);
+			World.initTracker(World.targetCollectionID);
 			World.initDrawables();
 			
 		 })
@@ -89,9 +98,10 @@ var World = {
 							document.location = 'architectsdk://tutorials-' + key;
 						}
 					}(key));
+					button_drawables.push(tutorials);
 				}
 				
-				button_drawables.push(tutorials);
+				
 				
 				this.tracked_devices[(this.tracked_devices).length] = new AR.Trackable2DObject(this.tracker, (World.devices)[key].name, {
 					drawables: {
@@ -283,6 +293,23 @@ var World = {
 			// $('#loadingMessage div').append(tutorialSteps[World.tutorial_stepIndex].description);
 		// });
 	// },
+	
+	onTouch: function() {
+		console.log("touched")
+		World.tracker.recognize(function(recognized, responseData) {
+			if ( recognized )
+			{
+				// A target image was found in the processed camera frame.
+				// The name of the recognized target can be retrieved from the responseData object.         
+				console.log('recognized target image: ' + responseData.targetInfo.name);
+			}
+			else
+			{
+				console.log("not recognized")
+				// No target image could be found in the processed camera frame.
+			}
+		});
+	},
 	
 	onBackKeyDown: function() {
 		if (World.state === 2) {

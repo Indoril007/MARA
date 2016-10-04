@@ -13,7 +13,7 @@
 	<script type="text/javascript">
 		var devices;
 	
-		$.getJSON("http://localhost:3000/file/devices.json")
+		$.getJSON("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/myDevices.json")
 		 .done(function(data) {
 			console.log("success");
 			devices = data;
