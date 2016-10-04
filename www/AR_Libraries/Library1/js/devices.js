@@ -109,3 +109,55 @@ Device.parseJSONobjects = function(objects) {
 	return devices;
 }
 
+
+
+function Target(name, targetCollectionId, buttons, tutorialButton, tutorials) {
+	this.name = name;
+	this.targetCollectionID = targetCollectionId;
+	this.buttons = buttons || [];
+	this.tutorialButton = tutorialButton;
+	this.tutorials = tutorials || {};
+}
+
+Target.prototype.addButtons = function(buttons) {
+	for(var i = 0; i < buttons.length; i++) {
+		this.buttons.push(buttons[i]);
+	}
+}
+
+Target.prototype.addTutorialButton = function(tutorialButton) {
+	this.tutorialButton = tutorialButton;
+}
+
+Target.prototype.addTutorial = function(tutorial) {
+	this.tutorials[tutorial.name] = tutorial;
+}
+
+Target.parseJSONobject = function(object) {
+	var target = new Target(object.name, targetCollectionId, null, null, null);
+	
+	for(var i = 0; i < object.buttons.length; i++) {
+		target.addButtons([Button.parseJSONobject(object.buttons[i])]);
+	}
+	
+	target.addTutorialButton(Button.parseJSONobject(object.tutorialButton));
+	
+	for (var key in object.tutorials) {
+		if (object.tutorials.hasOwnProperty(key)) {
+			target.addTutorial(Tutorial.parseJSONobject(object.tutorials[key]));
+		}
+	}
+	
+	return target;
+}
+
+Target.parseJSONobjects = function(objects) {
+	var targets = {};
+	for (var key in objects) {
+		if (objects.hasOwnProperty(key)) {
+			targets[key] = Target.parseJSONobject(objects[key]);
+		}
+	}
+	return targets;
+}
+

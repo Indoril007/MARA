@@ -5,18 +5,24 @@ var World = {
 	tracked: null,
 	devices: null,
 	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu, 5 = help
+	targetCollection: null,
+	// targetColleciton: "assets/MARA_v5.wtc",
 	tracked_devices: [],
 	tracked_tutorialSteps: [],
 	tutorial_stepIndex: 0,
 	
 	
 	init: function (devicesJSONurl) {
-		this.initTracker("assets/MARA_v5.wtc");
+		// this.initTracker("assets/MARA_v5.wtc");
 		this.initDevices(devicesJSONurl);
 	},
 	
-	initTracker: function(trackerUrl) {
-		this.tracker = new AR.ClientTracker(trackerUrl, {
+	initTracker: function(targetCollection) {
+		// this.tracker = new AR.ClientTracker(targetCollection, {
+			// onLoaded: this.worldLoaded
+		// });
+		
+		this.tracker = new AR.CloudTracker("05ff8db03f53a77e71c54e5654eb478e", targetCollection, {
 			onLoaded: this.worldLoaded
 		});
 	},
@@ -38,8 +44,14 @@ var World = {
 		$.getJSON(devicesJSONurl)
 		 .done(function(data) {
 			console.log("ARWORLD: get request for devices succeeded");
-			World.devices = Device.parseJSONobjects(data);
+			// World.devices = Device.parseJSONobjects(data);
+			// World.initDrawables();
+			
+			World.devices = [ Device.parseJSONobject(data) ];
+			World.targetCollection = (World.devices)[0].targetCollectionID;
+			World.initTracker(World.targetCollection);
 			World.initDrawables();
+			
 		 })
 		 .fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
@@ -70,12 +82,14 @@ var World = {
 					}(device,j));
 				}
 				
-				var tutorials = device.tutorialButton.getARImageDrawable();
-				(function(key) {
-					tutorials.onClick = function() {
-						document.location = 'architectsdk://tutorials-' + key;
-					}
-				}(key));
+				if (device.tutorialButton) {
+					var tutorials = device.tutorialButton.getARImageDrawable();
+					(function(key) {
+						tutorials.onClick = function() {
+							document.location = 'architectsdk://tutorials-' + key;
+						}
+					}(key));
+				}
 				
 				button_drawables.push(tutorials);
 				

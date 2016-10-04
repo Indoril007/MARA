@@ -262,7 +262,7 @@ var app = {
 		$.getJSON(devicesJSONurl)
 		 .done(function(data) {
 			console.log("Libraries Menu: get request for devices succeeded");
-			app.devices = Device.parseJSONobjects(data);
+			// app.devices = Device.parseJSONobjects(data);
 		 })
 		 .fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
