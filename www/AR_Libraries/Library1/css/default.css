@@ -84,3 +84,13 @@ html, body {
 	float: right;
 	color: #0182b9;
 }
+
+#loadButton {
+	float:left;
+	font-size: 34px;
+	text-align: center;
+	margin: 0;
+	color: #0182b9;
+	margin-top:10px;
+	width: 12%;
+}

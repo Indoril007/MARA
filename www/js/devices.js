@@ -135,7 +135,7 @@ Target.prototype.addTutorial = function(tutorial) {
 }
 
 Target.parseJSONobject = function(object) {
-	var target = new Target(object.name, object.targetCollectionID, null, null, null);
+	var target = new Target(object.name, targetCollectionId, null, null, null);
 	
 	for(var i = 0; i < object.buttons.length; i++) {
 		console.log("===========getting Button number:" + i);

@@ -1,113 +1,52 @@
 // var GLOBAL_DEBUG_FLAG = true;
 
 var World = {
-	
 	tracked: null,
-	devices: null,
-	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu, 5 = help
-	targetCollection: null,
-	// targetColleciton: "assets/MARA_v5.wtc",
+	loaded: false,
+	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu
 	tracked_devices: [],
 	tracked_tutorialSteps: [],
 	tutorial_stepIndex: 0,
 	
-	
-	init: function (devicesJSONurl) {
-		// this.initTracker("assets/MARA_v5.wtc");
-		this.initDevices(devicesJSONurl);
+	init: function initFn() {
+		this.tracker = new AR.ClientTracker("assets/MARA_v5.wtc", {
+			onLoaded: this.worldLoaded
+		});
+		this.loadDevices();
 	},
 	
-	initTracker: function(targetCollectionID) {
-		// this.tracker = new AR.ClientTracker(targetCollection, {
-			// onLoaded: this.worldLoaded
-		// });
-		console.log("targetCollectionID:" + targetCollectionID)
-		AR.context.setCloudRecognitionServerRegion(AR.CONST.CLOUD_RECOGNITION_SERVER_REGION.CHINA) 
-		this.tracker = new AR.CloudTracker("05ff8db03f53a77e71c54e5654eb478e", targetCollectionID, {
-			onLoaded: this.worldLoaded,
-			onError: function(error) {
-				console.log("================error occured===========");
-				console.log(error);
-			}
-		});
-	},
-	
-	worldLoaded: function worldLoadedFn() {
-		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
-			
-		$("#backButton").bind("click", function(event, ui) {
-			World.onBackKeyDown();
-		});
-
-		$("#help").bind("click", function(event, ui) {
-			// World.onHelpPressed();
-			World.onTouch();
-		});
-
-		$("#loadButton").bind("click", function(event, ui) {
-			World.onLoadPressed();
-		})
-		
-	},
-	
-	initDevices: function(devicesJSONurl) {	
-		$.getJSON(devicesJSONurl)
-		 .done(function(data) {
-			console.log("ARWORLD: get request for devices succeeded");
-			// World.devices = Device.parseJSONobjects(data);
-			// World.initDrawables();
-			
-			World.devices = { myDevice: Target.parseJSONobject(data) };
-			World.targetCollectionID = World.devices.myDevice.targetCollectionID;
-			// console.log(World.devices);
-			// console.log(World.devices[0].name);
-			// console.log(World.devices[0].targetCollectionID);
-			World.initTracker(World.targetCollectionID);
-			World.initDrawables();
-			
-		 })
-		 .fail(function( jqxhr, textStatus, error ) {
-			var err = textStatus + ", " + error;
-			console.log( "Request Failed: " + err );
-		});
-	},
-	
-	initDrawables: function () {
-		
+	loadDevices: function loadDevices() {
 		World.disableTutorials();
 		World.state = 1;
+		
 		$("#backButton").hide();
 		
 		var button_drawables = [];
 		
-		for (var key in World.devices) {
-			if (World.devices.hasOwnProperty(key)){
-				var device = (World.devices)[key];
-				
-				for (var j = 0; j < device.buttons.length; j++) {
-					(function(device,j) {
-						var button = device.buttons[j];
+		// for (i = 0; i < devices.length; i++) {
+		for (var key in devices) {
+			if (devices.hasOwnProperty(key)){
+				for (j = 0; j < devices[key].buttons.length; j++) {
+					(function(key,j) {
+						var button = devices[key].buttons[j];
 						var imageDrawable = button.getARImageDrawable();
 						imageDrawable.onClick = function() {
 							document.getElementById('loadingMessage').innerHTML = button.description;
 						}
 						button_drawables.push(imageDrawable);
-					}(device,j));
+					}(key,j));
 				}
 				
-				if (device.tutorialButton) {
-					var tutorials = device.tutorialButton.getARImageDrawable();
-					(function(key) {
-						tutorials.onClick = function() {
-							document.location = 'architectsdk://tutorials-' + key;
-						}
-					}(key));
-					button_drawables.push(tutorials);
-				}
+				var tutorials = (devices[key].tutorialButton).getARImageDrawable();
+				(function(key) {
+					tutorials.onClick = function() {
+						document.location = 'architectsdk://tutorials-' + key;
+					}
+				}(key));
 				
+				button_drawables.push(tutorials);
 				
-				
-				this.tracked_devices[(this.tracked_devices).length] = new AR.Trackable2DObject(this.tracker, (World.devices)[key].name, {
+				this.tracked_devices[(this.tracked_devices).length] = new AR.Trackable2DObject(this.tracker, devices[key].name, {
 					drawables: {
 						cam: button_drawables,
 					}
@@ -127,7 +66,7 @@ var World = {
 		$("#backButton").show();
 		
 		// Grab tutorial
-		var device = (World.devices)[device_key];
+		var device = devices[device_key];
 		var tutorial = device.tutorials[tutorial_key];
 		var tutorialSteps = tutorial.steps;
 		
@@ -298,21 +237,24 @@ var World = {
 		// });
 	// },
 	
-	onTouch: function() {
-		console.log("touched")
-		World.tracker.recognize(function(recognized, responseData) {
-			if ( recognized )
-			{
-				// A target image was found in the processed camera frame.
-				// The name of the recognized target can be retrieved from the responseData object.         
-				console.log('recognized target image: ' + responseData.targetInfo.name);
-			}
-			else
-			{
-				console.log("not recognized")
-				// No target image could be found in the processed camera frame.
-			}
+	worldLoaded: function worldLoadedFn() {
+		// var cssDivLeft = "style='float: left; height: 100%; width: 100px;'";
+		// var cssDivRight = "style='float: right; height: 100%;  width: 100px;'";
+		// var cssFont = " style='display: table-cell;vertical-align: middle; text-align: middle;'";
+		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
+			
+		$("#backButton").bind("click", function(event, ui) {
+			World.onBackKeyDown();
 		});
+
+		$("#help").bind("click", function(event, ui) {
+			World.onHelpPressed();
+		});
+
+		$("#loadButton").bind("click", function(event, ui) {
+			World.onLoadPressed();
+		})
+		
 	},
 	
 	onBackKeyDown: function() {
@@ -326,7 +268,6 @@ var World = {
 	},
 
 	onHelpPressed: function(){
-		// World.state = 5
 		document.location = 'architectsdk://help-info';
 	},
 
@@ -334,5 +275,7 @@ var World = {
 		document.location = 'architectsdk://load-data';
 	}
 };
+
+World.init();
 
 
