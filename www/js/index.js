@@ -59,26 +59,73 @@ var menu = {
 	
 	initialize: function() {
 		this.activateMenu(this.activeMenu);
-	},
+	}
 }; 
- 
-var onHandleUrl = function() {
-	var dataUrl = document.getElementById("inputCode").value;
+
+var customLib = {
+	dataUrl:"",
+	state: 0,
+	onLoadPage: function(){
+		document.getElementById("myModal").style.display = "block";
+
+		document.getElementById("inputCode").value="";
+		document.getElementById("fdback").innerHTML = "";
+
+		customLib.state = 1;
+
+		$( "#btnCancel" ).bind( "click", function(event, ui) {
+			document.getElementById("myModal").style.display = "none"
+		});
+
+		$( "#btnGo" ).bind(" click", function(event, ui) {
+			customLib.onHandleUrl();
+		});
+
+	},
+
+	onHandleUrl: function() {
+	dataUrl = document.getElementById("inputCode").value;
 	
 	if (!dataUrl.length) {
-		//alert("it's empty.");
 		document.getElementById("fdback").innerHTML = "Data code is empty"; 
 	}
 	else {
-	//	alert(dataUrl);
 		document.getElementById("fdback").innerHTML = "Loading..."; 
-
-		//app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/"+dataUrl+".json");
-		//not sure if ^ is working. no changes when button submitted. 
-		//if match with database, return to wikitude page
-		//else return errormessage "Data code not valid" 
+		if(app.ARstate==0){
+				app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/"+dataUrl+".json"); 
+			
+		}else if(app.ARstate==1){
+				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/'+dataUrl+'.json")');
+				
+		}
+		customLib.onUpdateName();
 	}
+	},
+
+	onHandleName: function(){
+
+		var defaultName = "&lt Empty &gt";
+
+		for (var i=1; i< 6; i++ ){
+			document.getElementById("entry"+i).innerHTML = defaultName;
+		}
+	},
+
+	onUpdateName: function(){
+		
+		//for(var i=5;i>1;i--){
+		//	var temp = i-1;
+		//	document.getElementById("entry"+i).innerHTML = document.getElementById("entry"+temp).innerHTML;		
+		//}
+
+		//localStorage.setItem("fileName",dataUrl);
+		//document.getElementById("entry1").innerHTML = dataUrl;
+		//alert("yay");
+		//localStorage.getItem("fileName"); //take name of file loaded
+	}
+
 };
+
 
 var callbackHandler = function(url) {
 	// Matching callback url against the format 'architectsdk://[any_characters_here]-[any_characters_here]'
@@ -137,10 +184,18 @@ var callbackHandler = function(url) {
 			menu.activateMenu("#tutorials");
 			app.wikitudePlugin.hide();
 		} else if (match[3] === "devices") {
+			document.getElementById("myModal").style.display="none";
 			menu.activateMenu("#libraries");
-			app.wikitudePlugin.close();
+			app.wikitudePlugin.hide();
 		}
 		
+	} else if(match[2]==="world"){
+		if(match[3]==="success"){
+			app.wikitudePlugin.show();
+		} else if(match[3]==="failed"){
+			document.getElementById("fdback").innerHTML = "Invalid file requested."
+		}
+
 	} else if (match[2] === "help") {
 
 		menu.activateMenu("#one");
@@ -201,24 +256,12 @@ var callbackHandler = function(url) {
 				threshold: 200,
 			});
 		});		   
-	} else if (match[2] === "load"){
+	} 
 
-			menu.activateMenu("#loadAR");
-			setTimeout(function(){app.wikitudePlugin.hide();},300);
-
-			$( "#btnCancel" ).bind( "click", function(event, ui) {
-				app.wikitudePlugin.show();
-			});
-
-			$( "#btnGo" ).bind(" click", function(event, ui) {
-				onHandleUrl();
-			});
-
-		}
 };
- 
-var app = {
 
+var app = {
+	ARstate: 0,
 	devices: null,
 	devicesJSONurl: null,
     requiredFeatures : ["2d_tracking"],
@@ -236,14 +279,16 @@ var app = {
     bindEvents: function() {
 
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('backbutton', this.onBackKeyPressed, false); //back button event when not launched in wikitude
     },
 
     onDeviceReady: function(){
 		
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
-		
-		WikitudePlugin.onBackButton = this.onBackKeyDown;
-		
+			
+		WikitudePlugin.onBackButton = this.onBackKeyDown; //doesnt do anything
+	
+
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
@@ -273,6 +318,7 @@ var app = {
         //app.wikitudePlugin.callJavaScript('createCircle(new AR.RelativeLocation(null, -10, 0), \'#97FF18\');');
 		
 		app.wikitudePlugin.callJavaScript('World.init("' + app.devicesJSONurl + '")');
+		app.ARstate=1;
 		
     },
 
@@ -283,7 +329,8 @@ var app = {
     },
 
 	onURLInvoked: callbackHandler,
-	
+
+
 	loadARchitectWorld: function(devicesJSONurl) {
 		
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
@@ -292,15 +339,19 @@ var app = {
 		$.getJSON(devicesJSONurl)
 		 .done(function(data) {
 			console.log("Libraries Menu: get request for devices succeeded");
+			app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);		
 			// app.devices = Device.parseJSONobjects(data);
 		 })
 		 .fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
+			document.getElementById("fdback").innerHTML = "Invalid file requested."; 
 			console.log( "Request Failed: " + err );
 		});
 		
-		app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
-
+		//once wikitude launched, back button brings user back to library page
+		if ( cordova.platformId == "android" ) {
+                app.wikitudePlugin.setBackButtonCallback(app.onBackButton);
+        }
     },
 	
 	loadTutorial: function(device_key, tutorial_key) {
@@ -311,8 +362,28 @@ var app = {
 	
 	onBackKeyDown: function() {
 		console.log("Test");
+	},
+
+	onBackButton: function() { //for android
+		//alert("test back button");
+		document.getElementById("myModal").style.display = "none"
+		menu.activateMenu("#libraries");
+		app.wikitudePlugin.hide();
+	},
+
+	onBackKeyPressed: function() { // for android
+		if (customLib.state===1){
+			document.getElementById("myModal").style.display = "none"
+			menu.activateMenu("#libraries");
+			customLib.state = 0;
 		}
+		else{
+			navigator.app.exitApp();
+		}
+	}
+
 };
 
+customLib.onHandleName();
 menu.initialize(); // menu unactivated when not using intial libraries menu
 app.initialize();

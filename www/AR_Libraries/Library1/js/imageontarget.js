@@ -1,7 +1,6 @@
 // var GLOBAL_DEBUG_FLAG = true;
 
 var World = {
-	
 	tracked: null,
 	devices: null,
 	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu, 5 = help
@@ -34,7 +33,6 @@ var World = {
 	
 	worldLoaded: function worldLoadedFn() {
 		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
-			
 		$("#backButton").bind("click", function(event, ui) {
 			World.onBackKeyDown();
 		});
@@ -44,9 +42,9 @@ var World = {
 			World.onTouch();
 		});
 
-		$("#loadButton").bind("click", function(event, ui) {
-			World.onLoadPressed();
-		})
+		//$("#loadButton").bind("click", function(event, ui) {
+		//	World.onLoadPressed();
+		//})
 		
 	},
 	
@@ -64,10 +62,11 @@ var World = {
 			// console.log(World.devices[0].targetCollectionID);
 			World.initTracker(World.targetCollectionID);
 			World.initDrawables();
-			
+			document.location = 'architectsdk://world-success';
 		 })
 		 .fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
+			document.location = 'architectsdk://world-failed';
 			console.log( "Request Failed: " + err );
 		});
 	},
@@ -76,7 +75,7 @@ var World = {
 		
 		World.disableTutorials();
 		World.state = 1;
-		$("#backButton").hide();
+		//$("#backButton").hide();
 		
 		var button_drawables = [];
 		
@@ -217,7 +216,7 @@ var World = {
 	enableTrackedDevices: function() {
 		World.state = 1;
 		World.disableTutorials();
-		$("#backButton").hide();
+		//$("#backButton").hide();
 		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = true;
@@ -320,19 +319,19 @@ var World = {
 			World.state = 3;
 			document.location = 'architectsdk://menu-tutorials';
 		} else if (World.state === 1 ) {
-			World.state = 4;
+			//World.state = 4;
 			document.location = 'architectsdk://menu-devices';
-		}
+		} 
 	},
 
 	onHelpPressed: function(){
 		// World.state = 5
 		document.location = 'architectsdk://help-info';
-	},
-
-	onLoadPressed: function(){
-		document.location = 'architectsdk://load-data';
 	}
+
+	//onLoadPressed: function(){
+	//	document.location = 'architectsdk://load-data';
+	//}
 };
 
 

@@ -18,11 +18,11 @@
 			<span class="glyphicon glyphicon-plus right" aria-hidden="true"></span>
 		</div>
 		<div class="menu-items">
-			<div id="library1" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 1</span></div>
-			<div id="library2" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 2</span></div>
-			<div id="library3" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 3</span></div>
-			<div id="library4" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 4</span></div>
-			<div id="library5" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span>Library 5</span></div>
+			<div id="library1" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span id="entry1" class="menu-text"></span></div>
+			<div id="library2" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span id="entry2" class="menu-text"></span></div>
+			<div id="library3" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span id="entry3" class="menu-text"></span></div>
+			<div id="library4" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span id="entry4" class="menu-text"></span></div>
+			<div id="library5" class="menu-item"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span id="entry5" class="menu-text"></span></div>
 		</div>
 	</div>
 
@@ -168,18 +168,30 @@
 <!-- End of Showing the information page-->
 
 
-<!---Showing the loading data page ---->
+<!---Showing the loading data page 
 		<div id="loadAR" class="menu" hidden>
 			<h3>Load Content Data</h3>
 			<div class="form-group">
 				<label for="inputCode">Enter data code</label>
-				<input class="form-control" type="text" id="inputCode">
+				<input class="form-control" type="text" id="inputCode" />
 				<p id=fdback></p>
 				<span id="btnCancel" class="btncfm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
 				<span id="btnGo" class="btncfm"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
 			</div>
 		</div>
 <!---End of Showing the loading data page ---->
+
+	<div id="myModal" class="modal">
+	<div class="modal-content">
+	<h3> Load Content Data </h3>
+		<label for="inputCode">Enter data code</label>
+		<input class="form-control" type="text" id="inputCode" />
+		<p id=fdback></p>
+		<span id="btnCancel" class="btncfm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+		<span id="btnGo" class="btncfm"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+	</div>
+	</div>
+
 
 
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -191,9 +203,29 @@
 	<script type="text/javascript" src="js/jQuery.touchswipe.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
 	<script type="text/javascript">
+	
 		$( "#library1" ).bind( "click", function(event, ui) {
-			app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/myDevices.json"); //this is default page 
+			if(app.ARstate==0){
+				app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/myDevices.json"); 
+			}else if(app.ARstate==1){
+				app.wikitudePlugin.show();	
+			}
+			app.loadARchitectWorld("www/AR_Libraries/Library1/js/devices.json");
 		});
+
+	
+  		$(".header .right").bind("click", function(event, ui) {
+			customLib.onLoadPage();
+		});
+		
+  		//if (typeof(Storage) !== "undefined") {
+  		//	alert("yay!");
+		//} else {
+   		//	 alert("nay...");
+		//}
+
+
+
 	</script>
 	
 </body>
