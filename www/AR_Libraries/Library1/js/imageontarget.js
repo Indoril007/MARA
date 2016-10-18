@@ -35,7 +35,7 @@ var World = {
 	},
 
 	worldLoaded: function worldLoadedFn() {
-		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
+		document.getElementById('loadingMessage').innerHTML = "Targets Loaded";
 		$("#backButton").bind("click", function(event, ui) {
 			World.onBackKeyDown();
 		});
@@ -102,7 +102,14 @@ var World = {
 						var button = device.buttons[j];
 						var imageDrawable = button.getARImageDrawable(World.serverHost);
 						imageDrawable.onClick = function() {
-							document.getElementById('loadingMessage').innerHTML = button.description;
+
+							var re = /http:\/\//;
+
+							if (re.test(button.description)) {
+								AR.context.openInBrowser(button.description);
+							} else {
+								document.getElementById('loadingMessage').innerHTML = button.description;
+							}
 						}
 						button_drawables.push(imageDrawable);
 					}(device,j));
@@ -231,7 +238,7 @@ var World = {
 		World.state = 1;
 		World.disableTutorials();
 		//$("#backButton").hide();
-		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
+		document.getElementById('loadingMessage').innerHTML = "Targets Loaded";
 		for (i = 0; i < (this.tracked_devices).length; i++) {
 			(this.tracked_devices[i]).enabled = true;
 		}
