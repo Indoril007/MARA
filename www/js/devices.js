@@ -9,13 +9,12 @@ function Button(name, imgPath, scale, offsetX, offsetY, description) {
 	this.description = description;
 }
 
-Button.prototype.getARImageDrawable = function() {
-	var overlayImg = new AR.ImageResource(this.imgPath);
+Button.prototype.getARImageDrawable = function(host) {
+	var overlayImg = new AR.ImageResource(host + this.imgPath);
 	return new AR.ImageDrawable(overlayImg, this.scale, {offsetX: this.offsetX, offsetY: this.offsetY});
 }
 
 Button.parseJSONobject = function(object) {
-	console.log(object);
 	var button = new Button(object.name, object.imgPath, object.scale, object.offsetX, object.offsetY, object.description);
 	return button;
 }
@@ -138,12 +137,10 @@ Target.parseJSONobject = function(object) {
 	var target = new Target(object.name, targetCollectionId, null, null, null);
 	
 	for(var i = 0; i < object.buttons.length; i++) {
-		console.log("===========getting Button number:" + i);
 		target.addButtons([Button.parseJSONobject(object.buttons[i])]);
 	}
 	
 	if (object.tutorialButton) {
-		console.log("===========getting tutorial Button+++++");
 		target.addTutorialButton(Button.parseJSONobject(object.tutorialButton));
 	}
 	

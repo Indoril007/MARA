@@ -339,6 +339,8 @@ var app = {
 
 	loadARchitectWorld: function(devicesJSONurl) {
 		
+		console.log("Loading Architect Worl----");
+
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
 		this.devicesJSONurl = devicesJSONurl;
 		
@@ -346,7 +348,7 @@ var app = {
 		 .done(function(data) {
 			console.log("Libraries Menu: get request for devices succeeded");
 			app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);		
-			// app.devices = Device.parseJSONobjects(data);
+			app.devices = Device.parseJSONobjects(data.targets);
 		 })
 		 .fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
