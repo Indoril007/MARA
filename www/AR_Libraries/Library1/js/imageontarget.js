@@ -56,17 +56,21 @@ var World = {
 		 .done(function(data) {
 			console.log("ARWORLD: get request for devices succeeded");
 
-			// World.devices = Device.parseJSONobjects(data);
-			// World.initDrawables();
-			
-			World.devices = Target.parseJSONobjects(data);
-			World.targetCollectionID = World.devices.wikitudeCollectionID;
-			// console.log(World.devices);
-			// console.log(World.devices[0].name);
-			// console.log(World.devices[0].targetCollectionID);
+			World.devices = Target.parseJSONobjects(data.targets);
+			World.targetCollectionID = data.wikitudeCollectionID;
 
-			// World.initCloudTracker(World.targetCollectionID);
-			World.initLocalTracker("assets/MARA_v5.wtc");
+			var re = /http:\/\/ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001\/(.+)\//;
+			var matches = re.exec(devicesJSONurl);
+
+			if(matches[1] === "demo") {
+				console.log("REGEX matched demo, using local wtc");
+				World.initLocalTracker("assets/MARA_v5.wtc");
+			} else if (matches[1] === "collection") {
+				console.log("REGEX matched collection, using server collection");
+				World.initCloudTracker(World.targetCollectionID);
+			} else {
+				console.log("ERROR: Regex failed to match either demo or collection");
+			}
 
 			World.initDrawables();
 			document.location = 'architectsdk://world-success';
