@@ -102,8 +102,9 @@ var customLib = {
 
 	onHandleName: function(){
 		var defaultName = "&lt Empty &gt";
+		localStorage.setItem("entry1","Lab Equipment Demo"); //always set the first entry to be lab equipment demo. for demo purposes only.
 		if(!localStorage.entry1){//if first time start init names
-			for(var i=1;i<6;i++){
+			for(var i=2;i<6;i++){
 			localStorage.setItem("entry"+i,defaultName);
 			}
 		}
@@ -116,13 +117,13 @@ var customLib = {
 
 	onUpdateName: function(){
 		
-		for(var i=5;i>1;i--){
+		for(var i=5;i>2;i--){
 			var temp = i-1;
 			localStorage.setItem("entry"+i,localStorage.getItem("entry"+temp));
 			document.getElementById("entry"+i).innerHTML = localStorage.getItem("entry"+i);		
 		}
-		localStorage.setItem("entry1",localStorage.getItem("tempName"));
-		document.getElementById("entry1").innerHTML = localStorage.getItem("entry1");
+		localStorage.setItem("entry2",localStorage.getItem("tempName")); //for demo purposes only. new entry goes to 2nd line.
+		document.getElementById("entry2").innerHTML = localStorage.getItem("entry2");
 	}
 
 };
