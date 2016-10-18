@@ -195,6 +195,7 @@ var callbackHandler = function(url) {
 			localStorage.setItem("tempName",dataUrl);
 			customLib.onUpdateName();
 			app.wikitudePlugin.show();
+			document.getElementById("myModal").style.display = "none"
 
 		} else if(match[3]==="failed"){
 			document.getElementById("fdback").innerHTML = "Invalid file requested."
