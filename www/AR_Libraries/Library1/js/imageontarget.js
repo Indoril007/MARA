@@ -1,6 +1,7 @@
 // var GLOBAL_DEBUG_FLAG = true;
 
 var World = {
+	
 	tracked: null,
 	devices: null,
 	state: 0,		// 0 = uninitialized, 1 = devices, 2 = tutorial, 3 = tutorials-menu, 4 = devices-menu, 5 = help

@@ -61,6 +61,7 @@ var menu = {
 		this.activateMenu(this.activeMenu);
 	}
 }; 
+<<<<<<< HEAD
 
 var customLib = {
 	state: 0,
@@ -266,6 +267,136 @@ var callbackHandler = function(url) {
 
 var app = {
 	ARstate: 0,
+=======
+ 
+var callbackHandler = function(url) {
+	// Matching callback url against the format 'architectsdk://[any_characters_here]-[any_characters_here]'
+	var regex = /(architectsdk:\/\/)(.+)-(.+)/g;
+	var match = regex.exec(url);
+	
+	// If callback url has the format 'architectsdk://tutorials-[device_name]'
+	if (match[2] === "tutorials")	{
+		
+		menu.clearMenu("#tutorials");
+		
+		// Matching device name
+		var device_key = match[3];
+		var device = app.devices[device_key]; // getting device with device key
+		var tutorials = device.tutorials; // Getting tutorials from device
+		
+		// Generating menu items for each tutorial
+		for (var tutorial_key in tutorials) {
+			if (tutorials.hasOwnProperty(tutorial_key)) {
+				var tutorial = tutorials[tutorial_key];
+				var id = "tutorial-" + device_key  + "-" + tutorial_key;
+				menu.addMenuItem('#tutorials', id, tutorial.name, {"device": device_key, "tutorial": tutorial_key});
+			}
+		}
+		
+		// Hiding libraries, Showing Tutorials
+		menu.activateMenu("#tutorials");
+		
+		// $( "#backToLibraries" ).bind( "click", function(event, ui) {
+			// menu.activateMenu("#libraries");
+			// app.wikitudePlugin.close();
+		// });
+		
+		$( "#backToDevices" ).bind( "click", function(event, ui) {
+			app.wikitudePlugin.callJavaScript('World.enableTrackedDevices()');
+			app.wikitudePlugin.show();
+		});
+		
+		// Binding click functions to menu items
+		$('#tutorials .menu-item').bind("click", function(event, ui) {
+			console.log("CLICK REGISTERED=====================================================");
+			
+			var device_key = $(this).attr('data-device');
+			var tutorial_key = $(this).attr('data-tutorial');
+			console.log(device_key)
+			console.log(tutorial_key)
+			app.loadTutorial(device_key, tutorial_key);
+		});
+		
+		// Hiding the architect world
+		app.wikitudePlugin.hide();
+		
+	} else if (match[2] === "menu") {
+		
+		if (match[3] === "tutorials") {
+			menu.activateMenu("#tutorials");
+			app.wikitudePlugin.hide();
+		} else if (match[3] === "devices") {
+			menu.activateMenu("#libraries");
+			app.wikitudePlugin.close();
+		}
+		
+	} else if (match[2] === "help") {
+
+		menu.activateMenu("#one");
+		setTimeout(function(){app.wikitudePlugin.hide();},300);
+
+		$( ".close" ).bind( "click", function(event, ui) {
+			app.wikitudePlugin.show();
+		});
+
+		$(function() {      
+			$("#one").swipe( {
+				swipeStatus:function(event, phase, direction, distance, duration)
+				{
+					if (direction=="left")
+						menu.activateMenu("#two");
+				},
+				allowPageScroll:"auto",
+				threshold: 200,
+			});
+		});
+
+		$(function() {      
+			$("#two").swipe( {
+				swipeStatus:function(event, phase, direction, distance, duration)
+				{
+					if (direction=="left")
+						menu.activateMenu("#three");
+					if (direction=="right")
+						menu.activateMenu("#one");
+				},
+				allowPageScroll:"auto",
+				threshold: 200,
+			});
+		});
+
+		$(function() {      
+			$("#three").swipe( {
+				swipeStatus:function(event, phase, direction, distance, duration)
+				{
+					if (direction=="left")
+						menu.activateMenu("#four");
+					if (direction=="right")
+						menu.activateMenu("#two");
+				},
+				allowPageScroll:"auto",
+				threshold: 200,
+			});
+		});
+
+		$(function() {      
+			$("#four").swipe( {
+				swipeStatus:function(event, phase, direction, distance, duration)
+				{
+					if (direction=="right")
+						menu.activateMenu("#three");
+				},
+				allowPageScroll:"auto",
+				threshold: 200,
+			});
+		});
+								   
+	}
+};
+ 
+var app = {
+
+>>>>>>> 114e7c0fbccfa691002a466994df193b1186c1d4
 	devices: null,
 	devicesJSONurl: null,
     requiredFeatures : ["2d_tracking"],
@@ -291,8 +422,6 @@ var app = {
         app.wikitudePlugin = cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
 			
 		WikitudePlugin.onBackButton = this.onBackKeyDown; //doesnt do anything
-	
-
         // app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);
 		console.log("================================================================================DEVICE READY");
     },
@@ -333,7 +462,6 @@ var app = {
     },
 
 	onURLInvoked: callbackHandler,
-
 
 	loadARchitectWorld: function(devicesJSONurl) {
 		
