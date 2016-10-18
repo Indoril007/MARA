@@ -326,11 +326,17 @@ var World = {
 				// A target image was found in the processed camera frame.
 				// The name of the recognized target can be retrieved from the responseData object.         
 				console.log('recognized target image: ' + responseData.targetInfo.name);
+
+				$("#help").css("color", "green");
+
 			}
 			else
 			{
 				console.log("not recognized")
 				// No target image could be found in the processed camera frame.
+
+				$("#help").css("color", "red");
+
 			}
 		});
 	},
