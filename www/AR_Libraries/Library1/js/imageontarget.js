@@ -18,6 +18,7 @@ var World = {
 	
 	initCloudTracker: function(targetCollectionID) {
 		console.log("targetCollectionID:" + targetCollectionID)
+		//AR.context.setCloudRecognitionServerRegion(AR.CONST.CLOUD_RECOGNITION_SERVER_REGION.CHINA) 
 		this.tracker = new AR.CloudTracker("5aaf33959ddc98c8f4c023848a7d5e7f", targetCollectionID, {
 			onLoaded: this.worldLoaded,
 			onError: function(error) {
@@ -51,7 +52,7 @@ var World = {
 	},
 	
 	initDevices: function(devicesJSONurl) {	
-		$.getJSON(devicesJSONurl)
+		$.get(devicesJSONurl)
 		 .done(function(data) {
 			console.log("ARWORLD: get request for devices succeeded");
 
@@ -59,7 +60,7 @@ var World = {
 			// World.initDrawables();
 			
 			World.devices = Target.parseJSONobjects(data);
-			World.targetCollectionID = World.devices.targetCollectionID;
+			World.targetCollectionID = World.devices.wikitudeCollectionID;
 			// console.log(World.devices);
 			// console.log(World.devices[0].name);
 			// console.log(World.devices[0].targetCollectionID);
@@ -74,6 +75,7 @@ var World = {
 			var err = textStatus + ", " + error;
 			document.location = 'architectsdk://world-failed';
 			console.log( "Request Failed: " + err );
+			alert("asdasd");
 		});
 	},
 	

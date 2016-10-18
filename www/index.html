@@ -183,7 +183,9 @@
 
 	<div id="myModal" class="modal">
 	<div class="modal-content">
-	<h3> Load Content Data </h3>
+	<div class="head">
+	<span> Load Content Data </span>
+	</div>
 		<label for="inputCode">Enter data code</label>
 		<input class="form-control" type="text" id="inputCode" />
 		<p id=fdback></p>
@@ -211,21 +213,41 @@
 			}else if(app.ARstate==1){
 				app.wikitudePlugin.show();	
 			}
-			// app.loadARchitectWorld("www/AR_Libraries/Library1/js/devices.json");
+		});
+		$( "#library2" ).bind( "click", function(event, ui) {
+			if(app.ARstate==0){
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+localStorage.getItem("entry2")); 
+			}else if(app.ARstate==1){
+				app.wikitudePlugin.show();	
+			}
+		});
+		$( "#library3" ).bind( "click", function(event, ui) {
+			if(app.ARstate==0){
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+localStorage.getItem("entry3")); 
+			}else if(app.ARstate==1){
+				app.wikitudePlugin.show();	
+			}
+		});
+		$( "#library4" ).bind( "click", function(event, ui) {
+			if(app.ARstate==0){
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+localStorage.getItem("entry4")); 
+			}else if(app.ARstate==1){
+				app.wikitudePlugin.show();	
+			}
+		});
+		$( "#library5" ).bind( "click", function(event, ui) {
+			if(app.ARstate==0){
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+localStorage.getItem("entry5")); 
+			}else if(app.ARstate==1){
+				app.wikitudePlugin.show();	
+			}
+>>>>>>> suki
 		});
 
 	
   		$(".header .right").bind("click", function(event, ui) {
 			customLib.onLoadPage();
 		});
-		
-  		//if (typeof(Storage) !== "undefined") {
-  		//	alert("yay!");
-		//} else {
-   		//	 alert("nay...");
-		//}
-
-
 
 	</script>
 	
