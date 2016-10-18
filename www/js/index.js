@@ -63,7 +63,6 @@ var menu = {
 }; 
 
 var customLib = {
-	dataUrl:"",
 	state: 0,
 	onLoadPage: function(){
 		document.getElementById("myModal").style.display = "block";
@@ -92,36 +91,38 @@ var customLib = {
 	else {
 		document.getElementById("fdback").innerHTML = "Loading..."; 
 		if(app.ARstate==0){
-				app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/"+dataUrl+".json"); 
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+dataUrl); 
 			
 		}else if(app.ARstate==1){
-				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/'+dataUrl+'.json")');
-				
+				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/'+dataUrl+'")');
 		}
-		customLib.onUpdateName();
+		
 	}
 	},
 
 	onHandleName: function(){
-
 		var defaultName = "&lt Empty &gt";
+		if(!localStorage.entry1){//if first time start init names
+			for(var i=1;i<6;i++){
+			localStorage.setItem("entry"+i,defaultName);
+			}
+		}
 
 		for (var i=1; i< 6; i++ ){
-			document.getElementById("entry"+i).innerHTML = defaultName;
+			document.getElementById("entry"+i).innerHTML = localStorage.getItem("entry"+i);
 		}
+		
 	},
 
 	onUpdateName: function(){
 		
-		//for(var i=5;i>1;i--){
-		//	var temp = i-1;
-		//	document.getElementById("entry"+i).innerHTML = document.getElementById("entry"+temp).innerHTML;		
-		//}
-
-		//localStorage.setItem("fileName",dataUrl);
-		//document.getElementById("entry1").innerHTML = dataUrl;
-		//alert("yay");
-		//localStorage.getItem("fileName"); //take name of file loaded
+		for(var i=5;i>1;i--){
+			var temp = i-1;
+			localStorage.setItem("entry"+i,localStorage.getItem("entry"+temp));
+			document.getElementById("entry"+i).innerHTML = localStorage.getItem("entry"+i);		
+		}
+		localStorage.setItem("entry1",localStorage.getItem("tempName"));
+		document.getElementById("entry1").innerHTML = localStorage.getItem("entry1");
 	}
 
 };
@@ -191,7 +192,10 @@ var callbackHandler = function(url) {
 		
 	} else if(match[2]==="world"){
 		if(match[3]==="success"){
+			localStorage.setItem("tempName",dataUrl);
+			customLib.onUpdateName();
 			app.wikitudePlugin.show();
+
 		} else if(match[3]==="failed"){
 			document.getElementById("fdback").innerHTML = "Invalid file requested."
 		}
@@ -336,7 +340,7 @@ var app = {
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
 		this.devicesJSONurl = devicesJSONurl;
 		
-		$.getJSON(devicesJSONurl)
+		$.get(devicesJSONurl)
 		 .done(function(data) {
 			console.log("Libraries Menu: get request for devices succeeded");
 			app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);		
@@ -346,6 +350,7 @@ var app = {
 			var err = textStatus + ", " + error;
 			document.getElementById("fdback").innerHTML = "Invalid file requested."; 
 			console.log( "Request Failed: " + err );
+			console.log(devicesJSONurl);
 		});
 		
 		//once wikitude launched, back button brings user back to library page

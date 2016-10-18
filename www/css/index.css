@@ -143,17 +143,6 @@ p {
 	width: 12%;
 }
 
-#loadAR {
-	background: #FAFAFA; /* For browsers that do not support gradients */
-	background: -webkit-linear-gradient(#FDFDFD, #FAFAFA, #FDFDFD); /* For Safari 5.1 to 6.0 */
-	background: -o-linear-gradient(#FDFDFD, #FAFAFA, #FDFDFD); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(#FDFDFD, #FAFAFA, #FDFDFD); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(#FDFDFD, #FAFAFA, #FDFDFD); /* Standard syntax */
-	position:absolute;
-    top:25%;
-    margin:20%;
-}
-
 #fdback {
 	color: red;
 }
@@ -180,4 +169,15 @@ p {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+}
+
+.modal-content .head{
+	height:100%;
+	width: 100%;
+	margin-bottom: 20px;
+	font-size: 25px;
+	color: white;
+	text-shadow: 1px 0 1px #999;
+	background-color: #0182b9;
+	
 }
