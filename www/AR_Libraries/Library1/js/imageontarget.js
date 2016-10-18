@@ -9,20 +9,16 @@ var World = {
 	tracked_devices: [],
 	tracked_tutorialSteps: [],
 	tutorial_stepIndex: 0,
-	
+	serverHost: "http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001",
 	
 	init: function (devicesJSONurl) {
 		// this.initTracker("assets/MARA_v5.wtc");
 		this.initDevices(devicesJSONurl);
 	},
 	
-	initTracker: function(targetCollectionID) {
-		// this.tracker = new AR.ClientTracker(targetCollection, {
-			// onLoaded: this.worldLoaded
-		// });
+	initCloudTracker: function(targetCollectionID) {
 		console.log("targetCollectionID:" + targetCollectionID)
-		AR.context.setCloudRecognitionServerRegion(AR.CONST.CLOUD_RECOGNITION_SERVER_REGION.CHINA) 
-		this.tracker = new AR.CloudTracker("05ff8db03f53a77e71c54e5654eb478e", targetCollectionID, {
+		this.tracker = new AR.CloudTracker("5aaf33959ddc98c8f4c023848a7d5e7f", targetCollectionID, {
 			onLoaded: this.worldLoaded,
 			onError: function(error) {
 				console.log("================error occured===========");
@@ -31,6 +27,12 @@ var World = {
 		});
 	},
 	
+	initLocalTracker: function(targetCollection) {
+		this.tracker = new AR.ClientTracker(targetCollection, {
+			onLoaded: this.worldLoaded
+		});
+	},
+
 	worldLoaded: function worldLoadedFn() {
 		document.getElementById('loadingMessage').innerHTML = "Scan for lab equipment";
 		$("#backButton").bind("click", function(event, ui) {
@@ -52,15 +54,19 @@ var World = {
 		$.getJSON(devicesJSONurl)
 		 .done(function(data) {
 			console.log("ARWORLD: get request for devices succeeded");
+
 			// World.devices = Device.parseJSONobjects(data);
 			// World.initDrawables();
 			
-			World.devices = { myDevice: Target.parseJSONobject(data) };
-			World.targetCollectionID = World.devices.myDevice.targetCollectionID;
+			World.devices = Target.parseJSONobjects(data);
+			World.targetCollectionID = World.devices.targetCollectionID;
 			// console.log(World.devices);
 			// console.log(World.devices[0].name);
 			// console.log(World.devices[0].targetCollectionID);
-			World.initTracker(World.targetCollectionID);
+
+			// World.initCloudTracker(World.targetCollectionID);
+			World.initLocalTracker("assets/MARA_v5.wtc");
+
 			World.initDrawables();
 			document.location = 'architectsdk://world-success';
 		 })
@@ -81,12 +87,14 @@ var World = {
 		
 		for (var key in World.devices) {
 			if (World.devices.hasOwnProperty(key)){
-				var device = (World.devices)[key];
+				var device = World.devices[key];
 				
+				console.log("!!!!!!!!!!!!!!!!!" + key);
+
 				for (var j = 0; j < device.buttons.length; j++) {
 					(function(device,j) {
 						var button = device.buttons[j];
-						var imageDrawable = button.getARImageDrawable();
+						var imageDrawable = button.getARImageDrawable(World.serverHost);
 						imageDrawable.onClick = function() {
 							document.getElementById('loadingMessage').innerHTML = button.description;
 						}
@@ -95,7 +103,7 @@ var World = {
 				}
 				
 				if (device.tutorialButton) {
-					var tutorials = device.tutorialButton.getARImageDrawable();
+					var tutorials = device.tutorialButton.getARImageDrawable(World.serverHost);
 					(function(key) {
 						tutorials.onClick = function() {
 							document.location = 'architectsdk://tutorials-' + key;
@@ -240,7 +248,7 @@ var World = {
 			var button_drawables = []; 
 			 
 			for (j = 0; j < step_buttons.length; j++) {
-				button_drawables.push(step_buttons[j].getARImageDrawable());
+				button_drawables.push(step_buttons[j].getARImageDrawable(World.serverHost));
 			}
 			
 			trackableSteps[i] = new AR.Trackable2DObject(this.tracker, device.name, {

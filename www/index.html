@@ -206,11 +206,12 @@
 	
 		$( "#library1" ).bind( "click", function(event, ui) {
 			if(app.ARstate==0){
-				app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/myDevices.json"); 
+				console.log("ar ap state is 0 going to demo")
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/demo/myDevices.json"); 
 			}else if(app.ARstate==1){
 				app.wikitudePlugin.show();	
 			}
-			app.loadARchitectWorld("www/AR_Libraries/Library1/js/devices.json");
+			// app.loadARchitectWorld("www/AR_Libraries/Library1/js/devices.json");
 		});
 
 	

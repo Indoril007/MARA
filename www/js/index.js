@@ -92,10 +92,10 @@ var customLib = {
 	else {
 		document.getElementById("fdback").innerHTML = "Loading..."; 
 		if(app.ARstate==0){
-				app.loadARchitectWorld("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/"+dataUrl+".json"); 
+				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+dataUrl); 
 			
 		}else if(app.ARstate==1){
-				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-64-239-210.ap-southeast-2.compute.amazonaws.com:3000/file/'+dataUrl+'.json")');
+				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3000/collection/'+dataUrl+'")');
 				
 		}
 		customLib.onUpdateName();
@@ -333,6 +333,8 @@ var app = {
 
 	loadARchitectWorld: function(devicesJSONurl) {
 		
+		console.log("Loading Architect Worl----");
+
 		this.arUrl = "www/AR_Libraries/Library1/index.html";
 		this.devicesJSONurl = devicesJSONurl;
 		
@@ -340,7 +342,7 @@ var app = {
 		 .done(function(data) {
 			console.log("Libraries Menu: get request for devices succeeded");
 			app.wikitudePlugin.isDeviceSupported(app.onDeviceSupported, app.onDeviceNotSupported, app.requiredFeatures);		
-			// app.devices = Device.parseJSONobjects(data);
+			app.devices = Device.parseJSONobjects(data);
 		 })
 		 .fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
