@@ -95,7 +95,7 @@ var customLib = {
 				app.loadARchitectWorld("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/"+dataUrl); 
 			
 		}else if(app.ARstate==1){
-				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3000/collection/'+dataUrl+'")');
+				app.wikitudePlugin.callJavaScript('World.init("http://ec2-52-62-175-192.ap-southeast-2.compute.amazonaws.com:3001/collection/'+dataUrl+'")');
 				
 		}
 		customLib.onUpdateName();
