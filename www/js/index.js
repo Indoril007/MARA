@@ -136,7 +136,8 @@ var callbackHandler = function(url) {
 	
 	// If callback url has the format 'architectsdk://tutorials-[device_name]'
 	if (match[2] === "tutorials")	{
-		
+
+		document.getElementById("myModal").style.display="none";
 		menu.clearMenu("#tutorials");
 		
 		// Matching device name
@@ -185,10 +186,14 @@ var callbackHandler = function(url) {
 		if (match[3] === "tutorials") {
 			menu.activateMenu("#tutorials");
 			app.wikitudePlugin.hide();
+
+		console.log("MATCH IS MENU TUT +++++++++++++++++++++++++++++++");
 		} else if (match[3] === "devices") {
 			document.getElementById("myModal").style.display="none";
 			menu.activateMenu("#libraries");
 			app.wikitudePlugin.hide();
+
+		console.log("MATCH IS MENU DEVICES +++++++++++++++++++++++++++++++");
 		}
 		
 	} else if(match[2]==="world"){
@@ -198,8 +203,11 @@ var callbackHandler = function(url) {
 			app.wikitudePlugin.show();
 			document.getElementById("myModal").style.display = "none"
 
+		console.log("MATCH IS WORLD SUCCESS +++++++++++++++++++++++++++++++");
 		} else if(match[3]==="failed"){
 			document.getElementById("fdback").innerHTML = "Invalid file requested."
+
+		console.log("MATCH IS WORLD SUCCESS +++++++++++++++++++++++++++++++");
 		}
 
 	} else if (match[2] === "help") {
